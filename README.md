@@ -1,4 +1,5 @@
 <p align="center">
+	<img width="128px" src="https://github.com/ClarkThyLord/Chat-Pardy/blob/master/static/assets/icons/chat_pardy.svg?sanitize=true" alt="CHAT PARDY" />
 	<h1 align="center">
 		Chat Pardy
 	</h1>
