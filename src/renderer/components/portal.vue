@@ -1,6 +1,29 @@
 <template>
-  <div id="wrapper">
-		HELLO WORLD!
+  <div class="text-center" id="wrapper">
+    <form onsubmit="return false;" action="##" class="form-signin">
+      <div class="m-2">
+        <img src="~@/assets/icons/chat_pardy.svg" alt="CHAT PARDY" width="128" class="mb-4 img-fluid">
+        <h1 class="h3 mb-3 font-weight-normal">Chat Pardy!</h1>
+      </div>
+
+      <div>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Join a game...">
+
+          <div class="input-group-prepend">
+            <input type="button" value="Go!" class="input-group-text btn-primary">
+          </div>
+        </div>
+
+        <hr />
+
+        <div class="input-group">
+          <input type="button" value="Create a game!" class="form-control btn-success">
+        </div>
+      </div>
+
+      <img src="~@/assets/icons/feather/github.svg" onclick="window.util.url_open('https://github.com/ClarkThyLord/Chat-Pardy')" title="Check us out on GitHub!" style="cursor: pointer;" class="mt-5"/>
+    </form>
   </div>
 </template>
 
@@ -9,3 +32,49 @@
     name: 'landing-page'
   }
 </script>
+
+<style>
+  html, body {
+    height: 100%;
+  }
+
+  body {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
+  }
+
+  .form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+  }
+  .form-signin .checkbox {
+    font-weight: 400;
+  }
+  .form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+  }
+  .form-signin .form-control:focus {
+    z-index: 2;
+  }
+  .form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+</style>
