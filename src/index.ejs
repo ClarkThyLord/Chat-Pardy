@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -9,16 +10,18 @@
 	<meta name="author" content="ClarkThyLord, Luke">
 	<meta name="description" content="Jarpady with friends!">
 
-    <% if (htmlWebpackPlugin.options.nodeModules) { %>
-      <!-- Add `node_modules/` to global paths so `require` works properly in development -->
-      <script>
-        require('module').globalPaths.push('<%= htmlWebpackPlugin.options.nodeModules.replace(/\\/g, '\\\\') %>')
-      </script>
-    <% } %>
-  </head>
-  <body class="d-flex justify-content-center">
-    <div id="app"></div>
-    <!-- Set `__static` path to static files in production -->
+	<% if (htmlWebpackPlugin.options.nodeModules) { %>
+	<!-- Add `node_modules/` to global paths so `require` works properly in development -->
+	<script>
+		require('module').globalPaths.push('<%= htmlWebpackPlugin.options.nodeModules.replace(/\\/g, '\\\\') %>')
+
+	</script>
+	<% } %>
+</head>
+
+<body>
+	<div id="app"></div>
+	<!-- Set `__static` path to static files in production -->
 	<% if (process.env.NODE_ENV !== 'production') { %>
 	<script>
 		if (process.env.NODE_ENV !== 'development') window.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
@@ -26,6 +29,7 @@
 	</script>
 	<% } %>
 
-    <!-- webpack builds are automatically injected -->
-  </body>
+	<!-- webpack builds are automatically injected -->
+</body>
+
 </html>

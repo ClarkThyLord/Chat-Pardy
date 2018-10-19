@@ -43,38 +43,18 @@
     display: flex;
     -ms-flex-align: center;
     align-items: center;
+		justify-content: center;
     padding-top: 40px;
     padding-bottom: 40px;
-    background-color: #f5f5f5;
+	  animation: color_change 10s infinite;
   }
 
-  .form-signin {
-    width: 100%;
-    max-width: 330px;
-    padding: 15px;
-    margin: auto;
-  }
-  .form-signin .checkbox {
-    font-weight: 400;
-  }
-  .form-signin .form-control {
-    position: relative;
-    box-sizing: border-box;
-    height: auto;
-    padding: 10px;
-    font-size: 16px;
-  }
-  .form-signin .form-control:focus {
-    z-index: 2;
-  }
-  .form-signin input[type="email"] {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-  .form-signin input[type="password"] {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-  }
+	@keyframes color_change {
+	  0% {background-color: red;}
+	  20%{background-color:yellow;}
+	  40%{background-color:green;}
+	  60%{background-color:brown;}
+	  80% {background-color: purple;}
+	  100% {background-color: red;}
+	}
 </style>

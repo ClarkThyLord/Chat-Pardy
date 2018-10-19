@@ -7,7 +7,7 @@ export default new Router({
 	routes: [{
 			path: '/',
 			name: 'portal',
-			component: require('@/components/portal').default
+			component: require('./routes/portal').default
 		},
 		{
 			path: '*',
