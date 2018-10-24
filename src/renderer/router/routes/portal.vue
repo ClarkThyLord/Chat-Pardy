@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center" id="wrapper">
+  <div class="text-center" id="portal">
     <form onsubmit="return false;" action="##" class="form-signin">
       <div class="m-2">
         <img src="~@/assets/icons/chat_pardy.svg" alt="CHAT PARDY" width="128" class="mb-4 img-fluid">
@@ -18,7 +18,8 @@
         <hr />
 
         <div class="input-group">
-          <input type="button" value="Create a game!" class="form-control btn-success">
+          <router-link to="/hub" tag="button" class="form-control btn-success">Create a game!</router-link>
+          <!-- <input type="button" value="Create a game!" class="form-control btn-success"> -->
         </div>
       </div>
 
@@ -33,12 +34,8 @@
   }
 </script>
 
-<style>
-  html, body {
-    height: 100%;
-  }
-
-  body {
+<style scoped>
+  #portal {
     display: -ms-flexbox;
     display: flex;
     -ms-flex-align: center;
@@ -46,15 +43,5 @@
 		justify-content: center;
     padding-top: 40px;
     padding-bottom: 40px;
-	  animation: color_change 10s infinite;
   }
-
-	@keyframes color_change {
-	  0% {background-color: red;}
-	  20%{background-color:yellow;}
-	  40%{background-color:green;}
-	  60%{background-color:brown;}
-	  80% {background-color: purple;}
-	  100% {background-color: red;}
-	}
 </style>
