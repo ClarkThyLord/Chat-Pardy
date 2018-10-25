@@ -1,11 +1,17 @@
 <template>
-  <div class="d-flex flex-wrap">
-    <div style="max-width: 18rem;" class="m-2 card text-white bg-primary">
+  <div class="d-flex bd-highlight flex-wrap">
+    <div style="max-width: 18rem;" class="m-2 flex-fill bd-highlight card text-white bg-primary">
       <div class="card-header">Group 1</div>
 
-      <div style="border-width: 3px !important; border-style: dashed !important;" class="m-1 card-body border">
+      <div style="overflow-x: hidden; overflow-y: auto; border-width: 4px !important; width: 200px; min-width: 200px; !important; word-wrap: break-word; border-style: dashed !important;" class="m-1 flex-small-fill bd-highlight card-body border">
+
       </div>
+
     </div>
+
+
+
+
 
 
   </div>
