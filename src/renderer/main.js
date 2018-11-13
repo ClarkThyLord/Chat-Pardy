@@ -4,6 +4,9 @@ import axios from 'axios'
 import App from './App'
 import router from './router'
 
+import $ from 'jquery'
+window.$ = $
+
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
