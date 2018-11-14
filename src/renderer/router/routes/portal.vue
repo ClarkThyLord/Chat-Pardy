@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center" id="wrapper">
+  <div class="text-center" id="portal">
 		<div tabindex="-1" role="dialog" aria-hidden="true" class="modal fade" id="download-prompt">
 		  <div class="modal-dialog modal-dialog-centered" role="document">
 		    <div class="modal-content">
@@ -25,7 +25,7 @@
 		  </div>
 		</div>
 
-    <form onsubmit="return false;" action="##" class="form-signin">
+    <form onsubmit="return false;" action="##" style="max-width: 330px;" class="m-auto p-2">
       <div class="m-2">
         <img src="~@/assets/icons/chat_pardy.svg" alt="CHAT PARDY" width="128" class="mb-4 img-fluid">
         <h1 class="h3 mb-3 font-weight-normal">Chat Pardy!</h1>
@@ -42,9 +42,9 @@
 
         <hr />
 
-        <div class="input-group">
-          <router-link to="/hub" tag="button" class="form-control btn-success">Create a game!</router-link>
-          <!-- <input type="button" value="Create a game!" class="form-control btn-success"> -->
+        <div>
+					<button @click="session_new" class="form-control btn-success">Create a game!</button>
+					<router-link to="/hub" tag="button" class="d-none" id="to_hub"></router-link>
         </div>
       </div>
 
@@ -61,6 +61,8 @@
 				if (process.env.IS_WEB) return window.$('#download-prompt').modal('show');
 
 				window.game.server.create()
+
+				window.$('#to_hub').click();
 			},
 			session_join: function () {
 				window.game.client.join()
