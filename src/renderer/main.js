@@ -4,8 +4,27 @@ import axios from 'axios'
 import App from './App'
 import router from './router'
 
+import $ from 'jquery'
+window.$ = $
+
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
+
+window.game = {
+	data: {
+		session: undefined
+	},
+	server: undefined,
+	client: undefined
+}
+
+if (!process.env.IS_WEB) {
+	const server = require('./common/server').default;
+	window.game.server = server
+}
+
+import client from './common/client'
+window.game.client = client
 
 import util from './common/util'
 window.util = util
