@@ -10,6 +10,11 @@ export default new Router({
 			component: require('./routes/portal').default
 		},
 		{
+			path: '/hub',
+			name: 'hub',
+			component: require('./routes/hub').default
+		},
+		{
 			path: '*',
 			redirect: '/'
 		}
