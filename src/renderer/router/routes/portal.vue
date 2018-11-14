@@ -36,7 +36,7 @@
           <input type="text" class="form-control" placeholder="Join a game...">
 
           <div class="input-group-prepend">
-            <input type="button" value="Go!" class="input-group-text btn-primary">
+            <input type="button" @click="session_join" value="Go!" class="input-group-text btn-primary">
           </div>
         </div>
 
@@ -57,7 +57,12 @@
     name: 'landing-page',
 		methods: {
 			session_new: function () {
-				if (process.env.IS_WEB) return window.$('#download-prompt').modal('show')
+				if (process.env.IS_WEB) return window.$('#download-prompt').modal('show');
+
+				window.game.server.create()
+			},
+			session_join: function () {
+				window.game.client.join()
 			}
 		}
   }
