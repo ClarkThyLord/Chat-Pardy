@@ -1,6 +1,6 @@
 <template>
-  <main class="h-100" id="app">
-    <router-view></router-view>
+  <main class="w-100 h-100" id="app">
+    <router-view class="w-100 h-100"></router-view>
   </main>
 </template>
 
