@@ -4,8 +4,10 @@ export default {
 	join: join
 }
 
-function join() {
-	let socket = _io('http://localhost:7000/')
+function join(ip) {
+	ip = ip || 'localhost';
+
+	let socket = _io(`http://${ip}:7000/`)
 
 	socket.on('hello', (data) => {
 		console.log(data);
