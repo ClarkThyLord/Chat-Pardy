@@ -13,7 +13,7 @@
 
 <style>
  .player {
-	 width: 200px !important;
+	 max-height: 50px !important;
 	 min-width: 200px !important;
 	 word-wrap: break-word;
 	 cursor: pointer;
