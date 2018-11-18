@@ -1,11 +1,13 @@
 <template>
   <div id="action-bar">
     <nav class="navbar navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">
-        <img src="~@/assets/icons/chat_pardy.svg" width="30" height="30" alt="">
+      <a style="cursor: default !important;" class="navbar-brand" href="#">
+        <img src="~@/assets/icons/chat_pardy.svg" alt="CP" width="32" height="32" class="mr-2">
         <span class="d-none d-md-inline">
           Chat Pardy
         </span>
+
+				<h3 class="ml-md-3 d-inline"><small><span class="d-none d-md-inline">Session </span>ID:</small> {{ session_id || '0.0.0.0' }}</h3>
       </a>
 
       <form class="form-inline">
@@ -21,7 +23,8 @@
 
 <script>
   export default {
-    name: 'action-bar'
+    name: 'action-bar',
+		props: ['session_id']
   }
 </script>
 

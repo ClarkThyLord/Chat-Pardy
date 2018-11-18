@@ -1,26 +1,30 @@
 <template>
-  <div class="h-100" id="wrapper">
-    <action-bar></action-bar>
+  <div class="h-100 d-flex flex-column" id="hub">
+		<action-bar></action-bar>
 
-    <div class="h-100 d-flex flex-column">
-      <player-space style="max-height: 50%;" class="flex-fill"></player-space>
-      <group-space style="max-height: 50%;" class="flex-fill"></group-space>
-    </div>
+		<div class="m-0 p-0 row flex-fill">
+			<div class="m-0 p-0 w-75 flex-fill">
+				<player-space class="h-50"></player-space>
+
+				<group-space class="h-50"></group-space>
+			</div>
+
+			<chat class="w-25 flex-fill"></chat>
+		</div>
   </div>
 </template>
 
 <script>
   import ActionBar from '../../components/hub/action-bar'
+
+  import Player from '../../components/hub/player'
   import PlayerSpace from '../../components/hub/player-space'
   import GroupSpace from '../../components/hub/group-space'
-  import Player from '../../components/hub/player'
 
+	import chat from '../../components/chat'
 
   export default {
     name: 'hub',
-    components: {ActionBar, PlayerSpace, GroupSpace, Player}
+    components: {ActionBar, PlayerSpace, GroupSpace, Player, chat}
   }
 </script>
-
-<style scoped>
-</style>
