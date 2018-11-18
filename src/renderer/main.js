@@ -11,11 +11,16 @@ import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 window.game = {
-	data: {
-		session: undefined
-	},
+	app: undefined,
 	server: undefined,
-	client: undefined
+	socket: undefined,
+	session: {
+		id: Math.floor(Math.random() * 9999999),
+		players: [],
+		questions: [],
+		msgs_g: [],
+		msgs_grp: []
+	}
 }
 
 if (!process.env.IS_WEB) {

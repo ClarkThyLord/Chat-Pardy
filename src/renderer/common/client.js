@@ -7,9 +7,9 @@ export default {
 function join(ip) {
 	ip = ip || 'localhost';
 
-	let socket = _io(`http://${ip}:7000/`)
+	window.game.socket = _io(`http://${ip}:7000/`)
 
-	socket.on('hello', (data) => {
+	window.game.socket.on('hello', (data) => {
 		console.log(data);
 	})
 }

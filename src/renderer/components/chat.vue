@@ -2,7 +2,7 @@
 	<div class="d-flex flex-column shadow" id="chat">
 		<div role="group" class="w-100 btn-group">
 		  <button type="button" class="w-50 btn btn-lg btn-primary">Global</button>
-		  <button type="button" class="w-50 btn btn-lg btn-primary">Team</button>
+		  <button type="button" class="w-50 btn btn-lg btn-primary">Group</button>
 		</div>
 
 		<div class="p-1 w-100 msgs">
