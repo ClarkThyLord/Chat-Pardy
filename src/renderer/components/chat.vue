@@ -1,8 +1,8 @@
 <template>
 	<div class="d-flex flex-column shadow" id="chat">
 		<div role="group" class="w-100 btn-group">
-		  <button type="button" class="w-50 btn btn-lg btn-primary">Global</button>
-		  <button type="button" class="w-50 btn btn-lg btn-primary">Group</button>
+		  <button type="button" @click="type = 'g'" class="w-50 btn btn-lg btn-primary">Global</button>
+		  <button type="button" @click="type = 'grp'" class="w-50 btn btn-lg btn-primary">Group</button>
 		</div>
 
 		<div class="p-1 w-100 msgs">
@@ -10,10 +10,10 @@
 		</div>
 
 		<div class="input-group">
-		  <input type="text" class="form-control" placeholder="Enter message...">
+		  <input type="text" v-model="msg" v-on:keyup.enter="msg_send" class="form-control" placeholder="Enter message...">
 
 			<div class="input-group-append">
-		    <button type="button" class="btn btn-success">Send</button>
+		    <button type="button" @click="msg_send" class="btn btn-success">Send</button>
 		  </div>
 		</div>
 	</div>
@@ -24,8 +24,20 @@
 
 	export default {
 		name: 'chat',
+		data: function () {
+			return {
+				msg: '',
+				type: 'g'
+			}
+		},
 		components: {
 			msg
+		},
+		methods: {
+			msg_send: function () {
+				window.game.socket.emit(`chat_msg_${this.type}`, this.msg);
+				this.msg = ''
+			}
 		}
 	}
 </script>

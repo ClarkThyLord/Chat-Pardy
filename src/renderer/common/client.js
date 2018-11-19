@@ -17,4 +17,13 @@ function join(ip) {
 	window.game.socket.on('hello', (data) => {
 		console.log(data);
 	})
+
+	// CHAT EVENTS
+	window.game.socket.on('chat_msg_g', function(msg){
+    window.game.session.msgs_g.push(msg)
+  })
+
+	window.game.socket.on('chat_msg_grp', function(msg){
+    window.game.session.msgs_grp.push(msg)
+  })
 }

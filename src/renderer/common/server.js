@@ -16,11 +16,15 @@ function create() {
 	window.game.server = _http.Server(window.game.app)
 	window.game.server.listen(7000)
 
-	window.game.socket = _io(window.game.server)
+	window.game.io = _io(window.game.server)
 
-	window.game.socket.on('connection', (socket) => {
+	window.game.io.on('connection', (socket) => {
 		socket.emit('hello', {
 			text: 'Hello world!'
 		})
+
+	  socket.on('chat_msg_g', function(msg){
+	    io.emit('chat_msg_g', msg);
+	  })
 	})
 }

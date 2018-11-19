@@ -13,6 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 window.game = {
 	app: undefined,
 	server: undefined,
+	io: undefined,
 	socket: undefined,
 	session: {
 		id: Math.floor(Math.random() * 9999999),
