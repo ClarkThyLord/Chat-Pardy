@@ -1,6 +1,6 @@
 <template>
   <div class="text-center" id="portal">
-		<player-name></player-name>
+		<player-name :session_ip="session_ip"></player-name>
 		<download-prompt></download-prompt>
 
     <form onsubmit="return false;" action="##" style="max-width: 330px;" class="m-auto p-2">
@@ -59,8 +59,6 @@
 				this.$router.push('hub')
 			},
 			session_join: function () {
-				window.game.client.join(this.session_ip)
-
 				window.$('#player-name').modal('show')
 			}
 		}

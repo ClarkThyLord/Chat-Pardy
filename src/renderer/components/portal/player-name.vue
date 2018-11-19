@@ -13,14 +13,14 @@
 				<div class="modal-body">
 					<form onsubmit="return false;" action="##" class="text-left">
 						<div class="p-3 m-auto form-group">
-					    <input type="text" placeholder="Name..." v-model="name" class="form-control">
+					    <input type="text" placeholder="Name..." v-model="name" name="name" class="form-control">
 					  </div>
 					</form>
 				</div>
 
 				<div class="modal-footer">
 					<button data-dismiss="modal" class="btn btn-danger">Cancel</button>
-					<button :disabled="!name_valid" :title="!name_valid ? 'Enter name to join...' : 'Join!'" class="btn btn-success">Join!</button>
+					<button @click="session_join" :disabled="!name_valid" :title="!name_valid ? 'Enter name to join...' : 'Join!'" class="btn btn-success">Join!</button>
 				</div>
 			</div>
 		</div>
@@ -30,6 +30,7 @@
 <script>
 	export default {
 		name: 'player-name',
+		props: ['session_ip'],
 		data: function () {
 			return {
 				name: ''
@@ -39,6 +40,16 @@
 			name_valid: function () {
 				return (this.name != '' && this.name.length >= 2 && this.name.length <= 12)
 			}
+		},
+		methods: {
+			session_join: function () {
+				window.game.client.join(this.session_ip)
+			}
+		},
+		mounted: function () {
+			$('#player-name').on('hidden.bs.modal', (eve) => {
+				this.name = ''
+			})
 		}
 	}
 </script>
