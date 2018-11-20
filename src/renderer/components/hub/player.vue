@@ -1,6 +1,6 @@
 <template>
 	<div role="alert" class="m-1 alert alert-primary text-center player">
-		{{ player || 'NAME'}}
+		{{ player ? player.name : 'NAME'}}
 	</div>
 </template>
 

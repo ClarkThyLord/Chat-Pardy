@@ -1,6 +1,6 @@
 <template>
-  <div class="p-2 d-flex flex-wrap  align-items-start justify-content-center shadow-sm" id="player-space">
-		<player></player>
+  <div class="p-2 d-flex flex-wrap align-items-start justify-content-center shadow-sm" id="player-space">
+		<player v-for="player in players" :player="player"></player>
   </div>
 </template>
 
@@ -11,7 +11,8 @@
     name: 'player-space',
 		components: {
 			player
-		}
+		},
+		props: ['players']
   }
 </script>
 

@@ -4,9 +4,9 @@
 
 		<div class="m-0 p-0 row flex-fill">
 			<div class="m-0 p-0 w-75 flex-fill">
-				<player-space class="h-50"></player-space>
+				<player-space :players="players" class="h-50"></player-space>
 
-				<group-space class="h-50"></group-space>
+				<group-space :groups="groups" class="h-50"></group-space>
 			</div>
 
 			<chat class="w-25 flex-fill"></chat>
@@ -25,6 +25,12 @@
 
   export default {
     name: 'hub',
-    components: {ActionBar, PlayerSpace, GroupSpace, Player, chat}
+    components: {ActionBar, PlayerSpace, GroupSpace, Player, chat},
+		data: function () {
+			return {
+				players: window.game.session.players,
+				groups: window.game.session.groups
+			}
+		}
   }
 </script>

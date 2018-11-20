@@ -3,7 +3,7 @@
 		<div class="card-header text-center"><b> {{ group ? group.name : 'NAME' }} </b></div>
 
 		<div class="m-1 d-flex flex-column flex-fill border rounded players">
-			<player></player>
+			<player v-for"player in group.players"></player>
 		</div>
 	</div>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex bd-highlight flex-wrap" id="group-space">
-    <group></group>
+    <group v-for="group in groups" :group="group"></group>
 
 		<div title="Add Group!" style="cursor: pointer;" class="m-2 d-flex flex-column flex-fill text-center align-middle text-white bg-primary rounded group">
 			<h2 class="p-0 m-0 h-100">
@@ -19,7 +19,8 @@
     name: 'group-space',
 		components: {
 			group
-		}
+		},
+		props: ['groups']
   }
 </script>
 
