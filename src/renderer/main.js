@@ -17,6 +17,7 @@ window.game = {
 	socket: undefined,
 	session: {
 		id: Math.floor(Math.random() * 9999999),
+		name: '',
 		players: [],
 		groups: [],
 		questions: [],

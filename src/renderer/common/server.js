@@ -40,6 +40,10 @@ function create() {
 	  socket.on('chat_msg_g', function (msg){
 	    window.game.io.emit('chat_msg_g', msg)
 	  })
+
+	  socket.on('chat_msg_grp', function (msg){
+	    window.game.io.emit('chat_msg_grp', msg)
+	  })
 	})
 
 	window.game.session.groups.push(group())

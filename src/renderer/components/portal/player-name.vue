@@ -43,6 +43,7 @@
 		},
 		methods: {
 			session_join: function () {
+				window.game.session.name = this.name
 				window.client.join(this.session_ip)
 
 				$('#player-name').modal('hide')

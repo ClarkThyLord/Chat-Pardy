@@ -6,7 +6,7 @@
 		</div>
 
 		<div class="p-1 w-100 msgs">
-			<msg></msg>
+			<msg v-for="msg in msgs" :msg="msg"></msg>
 		</div>
 
 		<div class="input-group">
@@ -27,7 +27,8 @@
 		data: function () {
 			return {
 				msg: '',
-				type: 'g'
+				type: 'g',
+				msgs: window.game.session.msgs_g
 			}
 		},
 		components: {
@@ -35,7 +36,10 @@
 		},
 		methods: {
 			msg_send: function () {
-				window.game.socket.emit(`chat_msg_${this.type}`, this.msg);
+				window.game.socket.emit(`chat_msg_${this.type}`, {
+					author: window.game.session.name,
+					content: this.msg
+				});
 				this.msg = ''
 			}
 		}
