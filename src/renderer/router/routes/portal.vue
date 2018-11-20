@@ -54,7 +54,7 @@
 			session_new: function () {
 				if (process.env.IS_WEB) return window.$('#download-prompt').modal('show');
 
-				window.game.server.create()
+				window.server.create()
 
 				this.$router.push('hub')
 			},

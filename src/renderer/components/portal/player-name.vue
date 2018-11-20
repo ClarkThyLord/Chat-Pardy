@@ -43,7 +43,10 @@
 		},
 		methods: {
 			session_join: function () {
-				window.game.client.join(this.session_ip)
+				window.client.join(this.session_ip)
+
+				$('#player-name').modal('hide')
+				this.$router.push('hub')
 			}
 		},
 		mounted: function () {
