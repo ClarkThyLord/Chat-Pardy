@@ -42,5 +42,10 @@ function create() {
 	  })
 	})
 
+	window.game.session.groups.push(group())
+	window.game.session.groups.push(group())
+	window.game.session.groups.push(group())
+	window.game.session.groups.push(group())
+
 	window.client.join('localhost')
 }

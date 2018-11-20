@@ -18,6 +18,7 @@ window.game = {
 	session: {
 		id: Math.floor(Math.random() * 9999999),
 		players: [],
+		groups: [],
 		questions: [],
 		msgs_g: [],
 		msgs_grp: []
