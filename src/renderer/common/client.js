@@ -7,7 +7,9 @@ export default {
 function join(ip) {
 	ip = ip || 'localhost';
 
-	window.game.socket = _io(`http://${ip}:7000/`)
+	window.game.socket = _io(`http://${ip}:7000/`, {
+		reconnection: false
+	})
 
 	window.game.socket.on('connect_error', (error) => {
 		alert('CANNOT FIND SESSION!')
@@ -15,6 +17,8 @@ function join(ip) {
 	})
 
 	window.game.socket.on('disconnect', (reason) => {
+		window.game.socket.close()
+		window.game_default()
 		window.vue.$router.push('portal')
 	});
 

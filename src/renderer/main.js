@@ -10,21 +10,24 @@ window.$ = $
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-window.game = {
-	app: undefined,
-	server: undefined,
-	io: undefined,
-	socket: undefined,
-	session: {
-		id: Math.floor(Math.random() * 9999999),
-		name: '',
-		players: [],
-		groups: [],
-		questions: [],
-		msgs_g: [],
-		msgs_grp: []
+window.game_default = function () {
+	window.game = {
+		app: undefined,
+		server: undefined,
+		io: undefined,
+		socket: undefined,
+		session: {
+			name: '',
+			players: [],
+			groups: [],
+			questions: [],
+			msgs_g: [],
+			msgs_grp: []
+		}
 	}
 }
+
+window.game_default()
 
 if (!process.env.IS_WEB) {
 	const server = require('./common/server').default;

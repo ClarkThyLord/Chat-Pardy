@@ -33,13 +33,9 @@
 		methods: {
 			exit: function () {
 				if (window.game.server != undefined) {
-					window.game.io.close(function () {
-						window.game.socket.close()
-						window.vue.$router.push('portal')
-					})
+					window.game.io.close()
 				} else {
 					window.game.socket.close()
-					window.vue.$router.push('portal')
 				}
 			}
 		},
