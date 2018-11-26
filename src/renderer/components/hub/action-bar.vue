@@ -7,14 +7,14 @@
           Chat Pardy
         </span>
 
-				<h3 class="ml-md-3 d-inline"><small><span class="d-none d-md-inline">Session </span>ID:</small> {{ session_id || '0.0.0.0' }}</h3>
+				<h3 v-if="session_id != ''" class="ml-md-3 d-inline"><small><span class="d-none d-md-inline">Session </span>ID:</small> {{ session_id || '0.0.0.0' }}</h3>
       </a>
 
       <form class="form-inline">
         <div class="btn-group" role="group">
-          <button type="button" class="btn btn-secondary">Configuration</button>
-          <button type="button" class="btn btn-primary">Help</button>
-          <button type="button" class="btn btn-danger">Exit</button>
+          <button v-if="is_host" type="button" class="btn btn-secondary">Configuration</button>
+          <!-- <button type="button" class="btn btn-primary">Help</button> -->
+          <button type="button" @click="exit" class="btn btn-danger">Exit</button>
         </div>
       </form>
     </nav>
@@ -24,7 +24,33 @@
 <script>
   export default {
     name: 'action-bar',
-		props: ['session_id']
+		data: function () {
+			return {
+				session_id: '',
+				is_host: window.game.server != undefined
+			}
+		},
+		methods: {
+			exit: function () {
+				if (window.game.server != undefined) {
+					window.game.io.close(function () {
+						window.game.socket.close()
+						window.vue.$router.push('portal')
+					})
+				} else {
+					window.game.socket.close()
+					window.vue.$router.push('portal')
+				}
+			}
+		},
+		mounted: function () {
+			if (window.game.server != undefined) {
+				this.session_id = 'Fetching session id...'
+				window.util.getLocalIP().then((ip) => {
+					this.session_id = ip
+				})
+			}
+		}
   }
 </script>
 

@@ -14,6 +14,10 @@ function join(ip) {
 		window.game.socket.close()
 	})
 
+	window.game.socket.on('disconnect', (reason) => {
+		window.vue.$router.push('portal')
+	});
+
 	// CHAT EVENTS
 	window.game.socket.on('chat_msg_g', function(msg){
     window.game.session.msgs_g.push(msg)

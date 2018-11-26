@@ -1,8 +1,8 @@
 <template>
 	<div class="d-flex flex-column shadow" id="chat">
-		<div role="group" class="w-100 btn-group">
-		  <button type="button" @click="type = 'g'" class="w-50 btn btn-lg btn-primary">Global</button>
-		  <button type="button" @click="type = 'grp'" class="w-50 btn btn-lg btn-primary">Group</button>
+		<div role="group" class="w-100 btn-group d-flex">
+		  <button type="button" @click="type = 'g'" style="flex: 1;" class="btn btn-lg btn-primary">Global</button>
+		  <button v-if="!is_host" type="button" @click="type = 'grp'" class="w-50 btn btn-lg btn-primary">Group</button>
 		</div>
 
 		<div class="p-1 w-100 msgs">
@@ -28,7 +28,8 @@
 			return {
 				msg: '',
 				type: 'g',
-				msgs: window.game.session.msgs_g
+				msgs: window.game.session.msgs_g,
+				is_host: window.game.server != undefined
 			}
 		},
 		components: {
@@ -37,7 +38,7 @@
 		methods: {
 			msg_send: function () {
 				window.game.socket.emit(`chat_msg_${this.type}`, {
-					author: window.game.session.name,
+					author: window.game.server != undefined ? 'GAME HOST' : window.game.session.name,
 					content: this.msg
 				});
 				this.msg = ''

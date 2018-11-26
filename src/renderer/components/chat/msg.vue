@@ -1,5 +1,5 @@
 <template>
-	<div class="m-1 p-3 flex-fill text-white msg">
+	<div class="m-1 p-2 flex-fill text-white msg">
 		<i>{{ msg ? msg.author : 'AUTHOR'}}</i> <b>:</b>
 		<span class="mr-2 mb-0">{{ msg ? msg.content : 'MESSAGE'}}</span>
 	</div>
@@ -15,6 +15,5 @@
 <style>
 	#chat .msg {
 		min-height: 50px;
-		max-height: 200px;
 	}
 </style>
