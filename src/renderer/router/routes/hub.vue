@@ -31,6 +31,14 @@
 				players: window.game.session.players,
 				groups: window.game.session.groups
 			}
+		},
+		mounted: function () {
+			window.game.socket.on('players_d', (data) => {
+				this.players = data
+			})
+			window.game.socket.on('groups_d', (data) => {
+				this.groups = data
+			})
 		}
   }
 </script>

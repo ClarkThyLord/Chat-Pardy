@@ -1,8 +1,8 @@
 <template>
 	<div class="d-flex flex-column shadow" id="chat">
-		<div role="group" class="w-100 btn-group d-flex">
+		<div v-if="!is_host" role="group" class="w-100 btn-group d-flex">
 		  <button type="button" @click="type = 'g'" style="flex: 1;" class="btn btn-lg btn-primary">Global</button>
-		  <button v-if="!is_host" type="button" @click="type = 'grp'" class="w-50 btn btn-lg btn-primary">Group</button>
+		  <button type="button" @click="type = 'grp'" class="w-50 btn btn-lg btn-primary">Group</button>
 		</div>
 
 		<div class="p-1 w-100 msgs">

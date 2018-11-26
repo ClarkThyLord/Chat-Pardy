@@ -13,7 +13,7 @@
 				<div class="modal-body">
 					<form onsubmit="return false;" action="##" class="text-left">
 						<div class="p-3 m-auto form-group">
-					    <input type="text" placeholder="Name..." v-model="name" name="name" class="form-control">
+					    <input type="text" v-on:keyup.enter="!name_valid ? '' : session_join" placeholder="Name..." v-model="name" name="name" class="form-control">
 					  </div>
 					</form>
 				</div>

@@ -37,6 +37,19 @@ function create() {
 	window.game.io = _io(window.game.server)
 
 	window.game.io.on('connection', (socket) => {
+		console.log(socket.handshake.query);
+		// IF NOT HOST THEN ADD TO PLAYERS
+		if (socket.handshake.query.id != window.game.session.id) {
+			window.game.session.players.push({
+				id: socket.handshake.query.id,
+				name: socket.handshake.query.name,
+				group: 0
+			})
+
+			window.game.io.sockets.emit('players_d', window.game.session.players)
+			window.game.io.sockets.emit('groups_d', window.game.session.groups)
+		}
+
 	  socket.on('chat_msg_g', function (msg){
 	    window.game.io.emit('chat_msg_g', msg)
 	  })

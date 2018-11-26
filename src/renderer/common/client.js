@@ -8,9 +8,14 @@ function join(ip) {
 	ip = ip || 'localhost';
 
 	window.game.socket = _io(`http://${ip}:7000/`, {
-		reconnection: false
+		reconnection: false,
+		query: {
+			id: window.game.session.id,
+			name: window.game.session.name
+		}
 	})
 
+	// CONNECTION EVENTS
 	window.game.socket.on('connect_error', (error) => {
 		alert('CANNOT FIND SESSION!')
 		window.game.socket.close()
@@ -21,6 +26,15 @@ function join(ip) {
 		window.game_default()
 		window.vue.$router.push('portal')
 	});
+
+	// DATA EVENTS
+	window.game.socket.on('players_d', function(data){
+		window.game.session.players = data
+  })
+
+	window.game.socket.on('groups_d', function(data){
+		window.game.session.groups = data
+  })
 
 	// CHAT EVENTS
 	window.game.socket.on('chat_msg_g', function(msg){
