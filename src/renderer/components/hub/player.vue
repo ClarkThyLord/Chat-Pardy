@@ -1,14 +1,21 @@
 <template>
-  <div>
-
-  </div>
+	<div role="alert" class="m-1 alert alert-primary text-center player">
+		{{ player ? player.name : 'NAME'}}
+	</div>
 </template>
 
 <script>
   export default {
-    name: 'player'
+    name: 'player',
+		props: ['player']
   }
 </script>
 
-<style scoped>
+<style>
+ .player {
+	 max-height: 50px !important;
+	 min-width: 200px !important;
+	 word-wrap: break-word;
+	 cursor: pointer;
+ }
 </style>

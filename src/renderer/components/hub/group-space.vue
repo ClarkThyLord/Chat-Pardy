@@ -1,34 +1,33 @@
-
 <template>
-  <div class="d-flex bd-highlight flex-wrap">
-    <div style="max-width: 18rem;" class="m-2 flex-fill bd-highlight card text-white bg-primary">
-      <div class="card-header text-center">Group 1</div>
+  <div class="d-flex bd-highlight flex-wrap" id="group-space">
+    <group v-for="(group, index) in groups" :index="index" :group="group"></group>
 
-      <div style="overflow-x: hidden; overflow-y: auto; border-width: 4px !important; width: 200px; min-width: 200px; !important; word-wrap: break-word; width: 97%; border-style: dashed !important;"class="m-1 flex-small-fill bd-highlight card-body border">
-
-      </div>
-
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
+		<div title="Add Group!" style="cursor: pointer;" class="m-2 d-flex flex-column flex-fill text-center align-middle text-white bg-primary rounded group">
+			<h2 class="p-0 m-0 h-100">
+				+
+				<br />
+				Add Group
+			</h2>
+		</div>
   </div>
 </template>
 
 <script>
+	import group from './group'
+
   export default {
-    name: 'group-space'
+    name: 'group-space',
+		components: {
+			group
+		},
+		props: ['groups']
   }
 </script>
 
-<style scoped>
+<style>
+	#group-space {
+		overflow-x: hidden;
+		overflow-y: auto;
+		background-color: rgba(0, 0, 0, 0.15);
+	}
 </style>

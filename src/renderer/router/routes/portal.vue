@@ -1,29 +1,7 @@
 <template>
   <div class="text-center" id="portal">
-		<div tabindex="-1" role="dialog" aria-hidden="true" class="modal fade" id="download-prompt">
-		  <div class="modal-dialog modal-dialog-centered" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title text-center">Chat Pardy</h5>
-
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		      </div>
-
-		      <div class="modal-body">
-		        <img src="~@/assets/icons/chat_pardy.svg" alt="CHAT PARDY" width="128" class="p-2 mb-4 img-fluid">
-						<br />
-						<i>You must download Chat Pardy to create a session!</i>
-		      </div>
-
-		      <div class="modal-footer justify-content-center">
-						<button type="button" data-dismiss="modal" class="btn btn-danger">No, thank you</button>
-						<button type="button" onclick="window.util.url_open('https://github.com/ClarkThyLord/Chat-Pardy/releases');" data-dismiss="modal" class="btn btn-success">Yes, thank you!</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
+		<player-name :session_ip="session_ip"></player-name>
+		<download-prompt></download-prompt>
 
     <form onsubmit="return false;" action="##" style="max-width: 330px;" class="m-auto p-2">
       <div class="m-2">
@@ -33,10 +11,10 @@
 
       <div>
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="Join a game...">
+          <input type="text" v-model="session_ip" class="form-control" placeholder="Join a game...">
 
-          <div class="input-group-prepend">
-            <input type="button" @click="session_join" value="Go!" class="input-group-text btn-primary">
+          <div class="input-group-append">
+						<button :disabled="!session_ip_valid" @click="session_join" :title="!session_ip_valid ? 'Enter session id...' : 'Go!'" class="btn btn-primary">Go!</button>
           </div>
         </div>
 
@@ -44,7 +22,6 @@
 
         <div>
 					<button @click="session_new" class="form-control btn-success">Create a game!</button>
-					<router-link to="/hub" tag="button" class="d-none" id="to_hub"></router-link>
         </div>
       </div>
 
@@ -54,18 +31,35 @@
 </template>
 
 <script>
+	import PlayerName from '../../components/portal/player-name'
+	import DownloadPrompt from '../../components/portal/download-prompt'
+
   export default {
     name: 'landing-page',
+		components: {
+			PlayerName,
+			DownloadPrompt
+		},
+		data: function () {
+			return {
+				session_ip: ''
+			}
+		},
+		computed: {
+			session_ip_valid: function () {
+				return (this.session_ip.length >= 7)
+			}
+		},
 		methods: {
 			session_new: function () {
 				if (process.env.IS_WEB) return window.$('#download-prompt').modal('show');
 
-				window.game.server.create()
+				window.server.create()
 
-				window.$('#to_hub').click();
+				this.$router.push('hub')
 			},
 			session_join: function () {
-				window.game.client.join()
+				window.$('#player-name').modal('show')
 			}
 		}
   }

@@ -15,6 +15,14 @@
     animation: color_change 10s infinite;
   }
 
+	button {
+		cursor: pointer;
+	}
+
+	button:disabled {
+		cursor: not-allowed;
+	}
+
   @keyframes color_change {
     0% {background-color: red;}
     20%{background-color:yellow;}
