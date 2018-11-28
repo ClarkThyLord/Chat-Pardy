@@ -1,6 +1,6 @@
 <template>
   <div class="p-2 d-flex flex-wrap align-items-start justify-content-center shadow-sm" id="player-space">
-		<player v-for="player in players" :player="player"></player>
+		<player v-for="(player, id, index) in players" :player="player"></player>
   </div>
 </template>
 
