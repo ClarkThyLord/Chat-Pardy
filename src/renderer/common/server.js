@@ -19,7 +19,7 @@ function _player(id, name) {
 function _group() {
 	return {
 		id: Math.floor(Math.random() * 9999999),
-		players: []
+		players: {}
 	}
 }
 
@@ -40,9 +40,40 @@ function create() {
 	window.game.io = _io(window.game.server)
 
 	function data_sync() {
+		// AUTO GROUP
+		autogroup()
+
 		// SYNC players,groups OF ALL sockets
 		window.game.io.sockets.emit('players_d', window.game.session.players)
 		window.game.io.sockets.emit('groups_d', window.game.session.groups)
+	}
+
+  function autogroup() {
+
+		var maxnum = Math.ceil(Math.sqrt(Object.keys(window.game.session.players).length)) + 1
+
+		for (let i = 0; i < 4; i++) {
+			window.game.session.groups[Object.keys(window.game.session.groups)[i]].players = []
+		}
+
+		var pool = []
+		for (let p = 0; p < maxnum; p++) {
+			if (pool.length === Object.keys(window.game.session.players).length) break;
+			console.log(`P: ${p}`)
+			for (let g = 0; g < Object.keys(window.game.session.groups).length; g++) {
+				if (pool.length === Object.keys(window.game.session.players).length) break;
+
+				console.log(`G: ${g}`)
+
+				let result = Object.keys(window.game.session.players)[Math.floor(Math.random() * Object.keys(window.game.session.players).length)]
+
+				if (pool.indexOf(result) != -1) continue;
+
+				pool.push(result)
+				window.game.session.groups[Object.keys(window.game.session.groups)[g]].players[result] = window.game.session.players[result]
+			}
+		}
+
 	}
 
 	window.game.io.on('connection', (socket) => {
