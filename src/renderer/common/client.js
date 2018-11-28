@@ -5,6 +5,7 @@ export default {
 }
 
 function join(ip) {
+	// DEFAULT VALUES
 	ip = ip || 'localhost';
 
 	window.game.socket = _io(`http://${ip}:7000/`, {
