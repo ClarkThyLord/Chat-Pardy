@@ -19,7 +19,7 @@ function _player(id, name) {
 function _group() {
 	return {
 		id: Math.floor(Math.random() * 9999999),
-		players: {}
+		players: []
 	}
 }
 
@@ -49,42 +49,54 @@ function create() {
 	}
 
   function autogroup() {
-
-		var maxnum = Math.ceil(Math.sqrt(Object.keys(window.game.session.players).length)) + 1
-
-		for (let i = 0; i < 4; i++) {
-			window.game.session.groups[Object.keys(window.game.session.groups)[i]].players = []
+		// CLEAN GROUPS
+		window.game.session.groups = []
+		for (let g = 0; g < 4; g++) {
+			// ADD NEW GROUP
+			window.game.session.groups.push(_group())
 		}
 
-		var pool = []
+		// MAX NUM OF PLAYERS PER GROUP ALLOWED
+		let maxnum = Math.ceil(Math.sqrt(window.game.session.players.length))
+
+		// LIST OF PLAYERS ALREADY CHOOSEN
+		let pool = []
 		for (let p = 0; p < maxnum; p++) {
-			if (pool.length === Object.keys(window.game.session.players).length) break;
-			console.log(`P: ${p}`)
-			for (let g = 0; g < Object.keys(window.game.session.groups).length; g++) {
-				if (pool.length === Object.keys(window.game.session.players).length) break;
+			// IF WE'VE ALREADY CHOOSEN ALL AVALIABLE PLAYERS BREAK
+			if (pool.length === window.game.session.players.length) break;
+			
+			for (let g = 0; g < 4; g++) {
+				// IF WE'VE ALREADY CHOOSEN ALL AVALIABLE PLAYERS BREAK
+				if (pool.length === window.game.session.players.length) break;
 
-				console.log(`G: ${g}`)
+				while (true) {
+					// IF WE'VE ALREADY CHOOSEN ALL AVALIABLE PLAYERS BREAK
+					if (pool.length === window.game.session.players.length) break;
 
-				let result = Object.keys(window.game.session.players)[Math.floor(Math.random() * Object.keys(window.game.session.players).length)]
+					// CHOSE A PLAYER'S INDEX AT RANDOM
+					let player = Math.floor(Math.random() * window.game.session.players.length)
 
-				if (pool.indexOf(result) != -1) continue;
+					// IF PLAYER'S INDEX IS ALREADY USED RE-PICK
+					if (pool.indexOf(player) != -1) continue;
 
-				pool.push(result)
-				window.game.session.groups[Object.keys(window.game.session.groups)[g]].players[result] = window.game.session.players[result]
+					// SINCE THIS PLAYER'S INDEX HASN'T BEEN CHOOSEN THEN ADD TO POOL AND GROUP
+					pool.push(player)
+					window.game.session.groups[g].players.push(window.game.session.players[player])
+					break;
+				}
 			}
 		}
-
 	}
 
 	window.game.io.on('connection', (socket) => {
 		// IF socket NOT HOST THEN ADD TO PLAYERS
 		if (socket.handshake.query.id != window.game.session.id) {
-			window.game.session.players[socket.handshake.query.id] = _player(socket.handshake.query.id, socket.handshake.query.name)
+			window.game.session.players.push(_player(socket.handshake.query.id, socket.handshake.query.name))
 
 			// WHEN THE socket/client disconnects do the following
 			socket.on('disconnect', (reason) => {
 				// DELETE PLAYER AND SYNC DATA
-				delete window.game.session.players[socket.handshake.query.id]
+				window.game.session.players.splice(window.game.session.players.findIndex(player => player.id === socket.handshake.query.id), 1)
 
 				data_sync()
 		  })
@@ -104,10 +116,9 @@ function create() {
 	  })
 	})
 
-	// ADDING 4 groups TO game session
+	// ADDING 4 group TO game session
 	for (let i = 0; i < 4; i++) {
-		let group = _group()
-		window.game.session.groups[group.id] = group
+		window.game.session.groups.push(_group())
 	}
 
 	// STARTING SERVER

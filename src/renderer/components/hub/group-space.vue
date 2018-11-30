@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex bd-highlight flex-wrap justify-content-center" id="group-space">
-    <group v-for="(group, id, index) in groups" :index="index" :group="group"></group>
+    <group v-for="(group, index) in groups" :index="index" :group="group"></group>
 
 		<!--
 			<div title="Add Group!" style="cursor: pointer;" class="m-2 d-flex flex-column flex-fill text-center align-middle text-white bg-primary rounded group">

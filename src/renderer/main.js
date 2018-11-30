@@ -19,9 +19,8 @@ window.game_default = function () {
 		session: {
 			id: Math.floor(Math.random() * 100000),
 			name: '',
-			sockets: {},
-			players: {},
-			groups: {},
+			players: [],
+			groups: [],
 			questions: [],
 			msgs_g: [],
 			msgs_grp: []
