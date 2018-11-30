@@ -33,6 +33,8 @@
 			}
 		},
 		mounted: function () {
+			if (window.game.socket === undefined) return this.$router.push('portal');
+
 			window.game.socket.on('players_d', (data) => {
 				this.players = data
 			})

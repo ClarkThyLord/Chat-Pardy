@@ -17,6 +17,10 @@ function join(ip) {
 	})
 
 	// CONNECTION EVENTS
+	window.game.socket.on('connect', () => {
+		window.vue.$router.push('hub')
+	});
+
 	window.game.socket.on('connect_error', (error) => {
 		alert('CANNOT FIND SESSION!')
 		window.game.socket.close()
