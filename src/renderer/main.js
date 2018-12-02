@@ -20,9 +20,10 @@ window.game_default = function () {
 			id: Math.floor(Math.random() * 9999999),
 			name: '',
 			group: '',
+			state: 'waiting',
 			players: [],
 			groups: [],
-			questions: [],
+			questions: {},
 			msgs_g: [],
 			msgs_grp: []
 		}

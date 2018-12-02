@@ -2,8 +2,11 @@ import _express from 'express'
 import _io from 'socket.io'
 import _http from 'http'
 
+import questions from './questions.json'
+
 export default {
-	create: create
+	create: create,
+	game_start: game_start
 }
 
 function _player(id, name) {
@@ -19,6 +22,7 @@ function _player(id, name) {
 function _group() {
 	return {
 		id: Math.floor(Math.random() * 9999999),
+		score: 0,
 		players: []
 	}
 }
@@ -44,8 +48,11 @@ function create() {
 		autogroup()
 
 		// SYNC players,groups OF ALL sockets
-		window.game.io.sockets.emit('players_d', window.game.session.players)
-		window.game.io.sockets.emit('groups_d', window.game.session.groups)
+		window.game.io.sockets.emit('data_sync', {
+			state: window.game.session.state,
+			players: window.game.session.players,
+			groups: window.game.session.groups
+		})
 	}
 
   function autogroup() {
@@ -137,4 +144,7 @@ function create() {
 
 	// STARTING SERVER
 	window.client.join('localhost')
+}
+
+function game_start() {
 }

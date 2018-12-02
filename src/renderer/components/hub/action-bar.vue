@@ -12,8 +12,9 @@
 
       <form class="form-inline">
         <div class="btn-group" role="group">
-          <button v-if="is_host" type="button" class="btn btn-secondary">Configuration</button>
+          <!-- <button v-if="is_host" type="button" class="btn btn-secondary">Configuration</button> -->
           <!-- <button type="button" class="btn btn-primary">Help</button> -->
+          <button v-if="is_host" type="button" @click="start" class="btn btn-primary">Start</button>
           <button type="button" @click="exit" class="btn btn-danger">Exit</button>
         </div>
       </form>
@@ -31,6 +32,9 @@
 			}
 		},
 		methods: {
+			start: function () {
+
+			},
 			exit: function () {
 				if (window.game.server != undefined) {
 					window.game.io.close()

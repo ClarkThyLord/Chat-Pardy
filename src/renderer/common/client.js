@@ -33,20 +33,18 @@ function join(ip) {
 	});
 
 	// DATA EVENTS
-	window.game.socket.on('players_d', function(data){
-		window.game.session.players = data
-  })
-
-	window.game.socket.on('groups_d', function(data){
-		window.game.session.groups = data
+	window.game.socket.on('data_sync', function (data) {
+		window.game.session.state = data.state
+		window.game.session.players = data.players
+		window.game.session.groups = data.groups
   })
 
 	// CHAT EVENTS
-	window.game.socket.on('chat_msg_g', function(msg){
+	window.game.socket.on('chat_msg_g', function (msg) {
     window.game.session.msgs_g.push(msg)
   })
 
-	window.game.socket.on('chat_msg_grp', function(msg){
+	window.game.socket.on('chat_msg_grp', function (msg) {
     window.game.session.msgs_grp.push(msg)
   })
 }

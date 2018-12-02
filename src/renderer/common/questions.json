@@ -1,0 +1,423 @@
+{
+	"Mexican History": [
+		{
+			"q": "cultura desarrolllada en la ciudad de Palenque: ",
+			"a": "maya"
+		},
+		{
+			"q": "las creaciones colosales son creaciones de la cultura: ",
+			"a": "olmeca"
+		},
+		{
+			"q": "lugar donde se encuentran las piramides del sol y la luna: ",
+			"a": "teotihuacan"
+		},
+		{
+			"q": "base alimenticia de los pueblos mesoamericanos: ",
+			"a": "maiz"
+		},
+		{
+			"q": "año en que los españoles conquistaron mexico: ",
+			"a": "1521"
+		},
+		{
+			"q": "nombre del conquistador de mexico: ",
+			"a": "hernan cortez"
+		},
+		{
+			"q": "nombre del ultimo emperador mexica: ",
+			"a": "cuauhtemoc"
+		},
+		{
+			"q": "mineral que mas se extraia de la nueva españa: ",
+			"a": "plata"
+		},
+		{
+			"q": "año de la independencia de mexico: ",
+			"a": "1810"
+		},
+		{
+			"q": "año de la revolucion mexicana: ",
+			"a": "1910"
+		}
+	],
+	"Universtal History": [
+		{
+			"q":"año en que colon descubrio america: " ,
+			"a":"1492"
+		},
+		{
+			"q":"pais que encabezaba joseph stalin: " ,
+			"a":"union sovietica"
+		},
+		{
+			"q":"pais en que se origino la carta magna: " ,
+			"a":"inglaterra"
+		},
+		{
+			"q":"siglo en que la peste bubonica arraso con europa: " ,
+			"a":"14"
+		},
+		{
+			"q":"primer explorador occidental en llegar a china" ,
+			"a":"marco polo"
+		},
+		{
+			"q":"el emperador caligula nombre como senador a su: " ,
+			"a":"caballo"
+		},
+		{
+			"q":"veces que se caso el rey enrique VIII: " ,
+			"a":"6"
+		},
+		{
+			"q":"en el antiguo egipto le rasuraban las cejas a este animal cuando moria: " ,
+			"a":"gato"
+		},
+		{
+			"q":"es la isla de la atlantida una de las 7 maravillas del mundo antiguo?: " ,
+			"a":"no"
+		},
+		{
+			"q":"por cual imperio fue conquistado egipto en el año 30 a.C.: " ,
+			"a":"romano"
+		}
+	],
+	"Mathematics": [
+		{
+			"q":"negativo por negativo da: " ,
+			"a":"positivo"
+		},
+		{
+			"q":"raiz de 2 al cuadrado: " ,
+			"a":"2"
+		},
+		{
+			"q":"cual es la cuarta parte de la tercera parte: " ,
+			"a":"un doceavo"
+		},
+		{
+			"q":"la integral de coseno es: " ,
+			"a":"seno"
+		},
+		{
+			"q":"la derivada de 3x es: " ,
+			"a":"3"
+		},
+		{
+			"q":"cateto opuesto sobre hipotenusa es: " ,
+			"a":"seno"
+		},
+		{
+			"q":"reciproca de coseno: " ,
+			"a":"secante"
+		},
+		{
+			"q":"reciproca de seno: " ,
+			"a":"cosecante"
+		},
+		{
+			"q":"base por altura entre 2 es la formula del: " ,
+			"a":"triangulo"
+		},
+		{
+			"q":"cateto opuesto sobre cateto adyacente es: " ,
+			"a":"tangente"
+		}
+	],
+	"General Culture": [
+		{
+			"q":"lugar mas frio de la tierra: " ,
+			"a":"antartida"
+		},
+		{
+			"q":"quien escribio la odisea: " ,
+			"a":"homero"
+		},
+		{
+			"q":"rio mas largo del mundo" ,
+			"a":"amazonas"
+		},
+		{
+			"q":"nombre de la reina del reino unido" ,
+			"a":"isabel"
+		},
+		{
+			"q":"en que continente esta ecuador: " ,
+			"a":"america"
+		},
+		{
+			"q":"lugar donde se originaron los juegos olimpicos: " ,
+			"a":"grecia"
+		},
+		{
+			"q":"que tipo de animal es la ballena: " ,
+			"a":"mamifero"
+		},
+		{
+			"q":"cantidad de huesos que tiene el ser humano: " ,
+			"a":"206"
+		},
+		{
+			"q":"año en que termina la segunda guerra mundial: " ,
+			"a":"1945"
+		},
+		{
+			"q":"nombre del autor de don quijote: " ,
+			"a":"miguel de cervantes"
+		}
+	],
+	"Common Culture": [
+
+			{
+				"q":"pintor de la ultima cena: " ,
+				"a":"leonardo da vinci"
+			},
+			{
+				"q":"pais en donde se encuentra la torre de pisa: " ,
+				"a":"italia"
+			},
+			{
+				"q":"ciudad donde se encuentra la sagrada familia: " ,
+				"a":"barcelona"
+			},
+			{
+				"q":"como se le denomina al resultado de una multiplicacion: " ,
+				"a":"producto"
+			},
+			{
+				"q":"nombre del oceano mas grande: " ,
+				"a":"pacifico"
+			},
+			{
+				"q":"disco mas vendido de la historia: " ,
+				"a":"thriller"
+			},
+			{
+				"q":"producto mas cultivado en guatemala: " ,
+				"a":"cafe"
+			},
+			{
+				"q":"nombre del cantante conocido como el rey del rock: " ,
+				"a":"elvis presley"
+			},
+			{
+				"q":"nombre del presidente de estados unidos: " ,
+				"a":"donald trump"
+			},
+			{
+				"q":"cual es el pais mas grande del mundo: " ,
+				"a":"rusia"
+			}
+	],
+	"Basic Culture": [
+		{
+			"q":"pais donde se encuentra la torre eiffel: " ,
+			"a":"francia"
+		},
+		{
+			"q":"año en que comienza la segunda guerra mundial: " ,
+			"a":"1939"
+		},
+		{
+			"q":"cual es el tercer planeta en el sistema solar: " ,
+			"a":"tierra"
+		},
+		{
+			"q":"moneda utilizada en reino unido: " ,
+			"a":"libra"
+		},
+		{
+			"q":"pais mas poblado de la tierra: " ,
+			"a":"china"
+		},
+		{
+			"q":"lugar del cuerpo donde se produce la insulina: " ,
+			"a":"pancreas"
+		},
+		{
+			"q":"rama de la biologia que estudia animales: " ,
+			"a":"zoologia"
+		},
+		{
+			"q":"nombre del himno nacional de francia" ,
+			"a":"la marsellesa"
+		},
+		{
+			"q":"numero de patas que tiene una araña: " ,
+			"a":"8"
+		},
+		{
+			"q":"lengua oficial de china: " ,
+			"a":"mandarin"
+		}
+	],
+	"Geography": [
+		{
+			"q":"oceano situado al este de estados unidos: " ,
+			"a":"atlantico"
+		},
+		{
+			"q":"montaña mas alta del mundo: " ,
+			"a":"monte everest"
+		},
+		{
+			"q":"capital de brasil: " ,
+			"a":"brasilia"
+		},
+		{
+			"q":"segundo continente mas grande del mundo: " ,
+			"a":"africa"
+		},
+		{
+			"q":"en que continente se encuentra israel: " ,
+			"a":"asia"
+		},
+		{
+			"q":"numero de paises en el mundo: " ,
+			"a":"196"
+		},
+		{
+			"q":"nombre del desierto mas grande del mundo: " ,
+			"a":"sahara"
+		},
+		{
+			"q":"especifica la distancia al norte o al sur del ecuador: " ,
+			"a":"latitud"
+		},
+		{
+			"q":"ciudad mas poblada del mundo: " ,
+			"a":"tokio"
+		},
+		{
+			"q":"numero de paises que conforman el reino unido: " ,
+			"a":"4"
+		}
+	],
+	"Computer Science": [
+		{
+			"q":"padre de las ciencias computacionales: ",
+			"a":"alan turing"
+		},
+		{
+			"q":"inventor de los operadores booleanos: ",
+			"a":"george bool"
+		},
+		{
+			"q":"el disco duro, ram y cpu forman parte del: ",
+			"a":"hardware"
+		},
+		{
+			"q":"año de nacimiento de alan turing: ",
+			"a":"1912"
+		},
+		{
+			"q":"sombrero blanco, sombrero negro y sombrero gris son tipos de: ",
+			"a":"hacker"
+		},
+		{
+			"q":"nombre del padre del computo: ",
+			"a":"charles babbage"
+		},
+		{
+			"q":"ciencia aplicada a resolucion de problemas: ",
+			"a":"tecnologia"
+		},
+		{
+			"q":"conjunto de conocimientos sobre una materia: ",
+			"a":"ciencia"
+		},
+		{
+			"q":"se le llama asi a la aplicacion de ciertos conocimientos: ",
+			"a":"ingenieria"
+		},
+		{
+			"q":"phishing, keylogger son tipos de: ",
+			"a":"hacking"
+		}
+	],
+	"Natural Science": [
+		{
+			"q":"Es el proceso por el cual las plantas verdes y algunos organismos usan la luz del sol para transformar el CO2 y el agua en azúcares y oxígeno.",
+			"a":"fotosintesis"
+		},
+		{
+			"q":"nombre del mamifero mas grande de la tierra: ",
+			"a":"ballena"
+		},
+		{
+			"q":"como se llama al componente minimo que tienen los seres vivos: ",
+			"a":"celula"
+		},
+		{
+			"q":"proceso por el cual las celulas se dividen en 2 para formar celulas hijas: ",
+			"a":"mitosis"
+		},
+		{
+			"q":"la informacion genetica de las celulas se encuentra en el: ",
+			"a":"nucleo"
+		},
+		{
+			"q":"con que respira una ballena: ",
+			"a":"pulmones"
+		},
+		{
+			"q":"los cromosomas estan formados por: ",
+			"a":"adn"
+		},
+		{
+			"q":"al descendiente del cruce de un asno y una yegua se le conoce como: ",
+			"a":"mulo"
+		},
+		{
+			"q":"para los botanicos, el tomate es una: ",
+			"a":"fruta"
+		},
+		{
+			"q":"la fuerza fisica que la tierra ejerce sobre los cuerpos hacia el centro es la: ",
+			"a":"gravedad"
+		}
+	],
+	"World Science": [
+		{
+			"q":"como se le llama a la teoria que considera que todos los organismos descendemos del mismo ancentro: ",
+			"a":"darwinismo"
+		},
+		{
+			"q":"la columna mas a la derecha de la tabla periodica esta compuesta por: ",
+			"a":"gases nobles"
+		},
+		{
+			"q":"a cuantos km/s viaja la luz: ",
+			"a":"300000"
+		},
+		{
+			"q":"como se generan las particulas subatomicas con carga electrica negativa: ",
+			"a":"electron"
+		},
+		{
+			"q":"el sol es, una estrella, un satelite o un planeta?: ",
+			"a":"una estrella"
+		},
+		{
+			"q":"invento mas famoso de alfred nobel: ",
+			"a":"dinamita"
+		},
+		{
+			"q":"el teorema que dice que en todo triangulo rectangulo, el cuadrado de la hipotenusa es igual a la suma de los cuadrados de los catetos es el: ",
+			"a":"teorema de pitagoras"
+		},
+		{
+			"q":"para el pan y la cerveza se usan para fermentar la: ",
+			"a":"levadura"
+		},
+		{
+			"q":"principal funcion de los globulos rojos",
+			"a":"llevar oxigeno"
+		},
+		{
+			"q":"tipo de radiacion que produce quemaduras: ",
+			"a":"ultravioleta"
+		}
+	]
+}
