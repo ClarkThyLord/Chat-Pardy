@@ -79,10 +79,15 @@ function create() {
 					// IF PLAYER'S INDEX IS ALREADY USED RE-PICK
 					if (pool.indexOf(player) != -1) continue;
 
-					// SINCE THIS PLAYER'S INDEX HASN'T BEEN CHOOSEN THEN ADD TO POOL AND GROUP
+					// SINCE THIS PLAYER'S INDEX HASN'T BEEN CHOOSEN ALREADY THEN ADD TO POOL
 					pool.push(player)
+
+					// GET player
 					player = window.game.session.players[player]
-					window.game.io[player.id].handshake.query.group = window.game.session.groups[g].id
+
+					// UPDATE player's socket group id
+					window.game.io.sockets.sockets[player.id].handshake.query.group = window.game.session.groups[g].id
+					// ADD player TO group
 					window.game.session.groups[g].players.push(player)
 					break;
 				}
@@ -93,13 +98,13 @@ function create() {
 	window.game.io.on('connection', (socket) => {
 		// IF socket NOT HOST THEN ADD TO PLAYERS
 		if (socket.handshake.query.id != window.game.session.id) {
+			// CREATE A NEW player WITH socket's id AND name GIVEN BY USER
 			window.game.session.players.push(_player(socket.id, socket.handshake.query.name))
 
-			// WHEN THE socket/client disconnects do the following
+			// WHEN THE socket/client disconnects DO THE FOLLOWING
 			socket.on('disconnect', (reason) => {
 				// DELETE PLAYER AND SYNC DATA
-				window.game.session.players.splice(window.game.session.players.findIndex(player => player.id === socket.handshake.query.id), 1)
-
+				window.game.session.players.splice(window.game.session.players.findIndex(player => player.id == socket.id), 1)
 				data_sync()
 		  })
 
@@ -115,12 +120,12 @@ function create() {
 
 		// CHAT MSG TO socket's GROUP
 	  socket.on('chat_msg_grp', (msg) => {
-			// GET GROUP MEMBERS; COMPARING GROUP ID OF SENDER AND OTHER PLAYERS
-			let group_members = Object.values(window.game.io.sockets.sockets).filter(p => p.handshake.query.group == )
-
 			// SEND MSG TO ALL GROUP MEMBERS
-			for (let member of window.game.session.groups(socket.handshake.query.group).players) {
-		    window.game.session.io.sockets.sockets[member.id].emit('chat_msg_grp', msg)
+			for (let sub_socket of Object.values(window.game.io.sockets.sockets)) {
+				// IF THIS sub_socket HAD THE SAME group OF SENDER(socket) THEN SEND MSG
+				if (sub_socket.handshake.query.group == socket.group) {
+					window.game.session.io.sockets.sockets[sub_socket.id].emit('chat_msg_grp', msg)
+				}
 			}
 	  })
 	})
