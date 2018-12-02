@@ -64,7 +64,7 @@ function create() {
 		for (let p = 0; p < maxnum; p++) {
 			// IF WE'VE ALREADY CHOOSEN ALL AVALIABLE PLAYERS BREAK
 			if (pool.length === window.game.session.players.length) break;
-			
+
 			for (let g = 0; g < 4; g++) {
 				// IF WE'VE ALREADY CHOOSEN ALL AVALIABLE PLAYERS BREAK
 				if (pool.length === window.game.session.players.length) break;
@@ -81,7 +81,9 @@ function create() {
 
 					// SINCE THIS PLAYER'S INDEX HASN'T BEEN CHOOSEN THEN ADD TO POOL AND GROUP
 					pool.push(player)
-					window.game.session.groups[g].players.push(window.game.session.players[player])
+					player = window.game.session.players[player]
+					window.game.io[player.id].handshake.query.group = window.game.session.groups[g].id
+					window.game.session.groups[g].players.push(player)
 					break;
 				}
 			}
@@ -91,7 +93,7 @@ function create() {
 	window.game.io.on('connection', (socket) => {
 		// IF socket NOT HOST THEN ADD TO PLAYERS
 		if (socket.handshake.query.id != window.game.session.id) {
-			window.game.session.players.push(_player(socket.handshake.query.id, socket.handshake.query.name))
+			window.game.session.players.push(_player(socket.id, socket.handshake.query.name))
 
 			// WHEN THE socket/client disconnects do the following
 			socket.on('disconnect', (reason) => {
@@ -106,13 +108,20 @@ function create() {
 		}
 
 		// CHAT MSG TO GLOBAL
-	  socket.on('chat_msg_g', function (msg){
+	  socket.on('chat_msg_g', (msg) => {
+			// EMIT MESSAGE TO ALL PLAYERS; e.g. GLOBAL CHAT
 	    window.game.io.emit('chat_msg_g', msg)
 	  })
 
 		// CHAT MSG TO socket's GROUP
-	  socket.on('chat_msg_grp', function (msg){
-	    window.game.io.emit('chat_msg_grp', msg)
+	  socket.on('chat_msg_grp', (msg) => {
+			// GET GROUP MEMBERS; COMPARING GROUP ID OF SENDER AND OTHER PLAYERS
+			let group_members = Object.values(window.game.io.sockets.sockets).filter(p => p.handshake.query.group == )
+
+			// SEND MSG TO ALL GROUP MEMBERS
+			for (let member of window.game.session.groups(socket.handshake.query.group).players) {
+		    window.game.session.io.sockets.sockets[member.id].emit('chat_msg_grp', msg)
+			}
 	  })
 	})
 
