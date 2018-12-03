@@ -28,6 +28,80 @@ function _group() {
 	}
 }
 
+function data_sync() {
+	// AUTO GROUP
+	autogroup()
+
+	// SYNC players,groups OF ALL sockets
+	window.game.io.sockets.emit('data_sync', {
+		state: window.game.session.state,
+		players: window.game.session.players,
+		groups: window.game.session.groups
+	})
+}
+
+function autogroup() {
+	// CLEAN GROUPS
+	window.game.session.groups = []
+	for (let g = 0; g < 4; g++) {
+		// ADD NEW GROUP
+		window.game.session.groups.push(_group())
+	}
+
+	// MAX NUM OF PLAYERS PER GROUP ALLOWED
+	let maxnum = Math.ceil(Math.sqrt(window.game.session.players.length))
+
+	window.game.session.groups_used = 0
+
+	// LIST OF PLAYERS ALREADY CHOOSEN
+	let pool = []
+	for (let p = 0; p < maxnum; p++) {
+		// IF WE'VE ALREADY CHOOSEN ALL AVALIABLE PLAYERS BREAK
+		if (pool.length === window.game.session.players.length) break;
+
+		for (let g = 0; g < 4; g++) {
+			// IF WE'VE ALREADY CHOOSEN ALL AVALIABLE PLAYERS BREAK
+			if (pool.length === window.game.session.players.length) break;
+
+			while (true) {
+				// IF WE'VE ALREADY CHOOSEN ALL AVALIABLE PLAYERS BREAK
+				if (pool.length === window.game.session.players.length) break;
+
+				// CHOSE A PLAYER'S INDEX AT RANDOM
+				let player = Math.floor(Math.random() * window.game.session.players.length)
+
+				// IF PLAYER'S INDEX IS ALREADY USED RE-PICK
+				if (pool.indexOf(player) != -1) continue;
+
+				// SINCE THIS PLAYER'S INDEX HASN'T BEEN CHOOSEN ALREADY THEN ADD TO POOL
+				pool.push(player)
+
+				// GET player
+				player = window.game.session.players[player]
+
+				// UPDATE player's socket group id
+				window.game.io.sockets.sockets[player.id].handshake.query.group = window.game.session.groups[g].id
+
+				// IF PLAYER IS FIRST IN GROUP THEN MAKE TEAM CAPTAIN; ELSE MAKE NON CAPTAIN
+				if (p == 0) {
+					window.game.io.sockets.sockets[player.id].emit('group_captain', true);
+
+					// ADD TO SERVER SIDE LIST OF TEAM CAPTAINS
+					window.game.session.group_captains.push(player.id)
+				} else {
+					window.game.io.sockets.sockets[player.id].emit('group_captain', false);
+				}
+
+				// ADD player TO group
+				window.game.session.groups[g].players.push(player)
+				break;
+			}
+
+			window.game.session.groups_used += 1
+		}
+	}
+}
+
 function create() {
 	// IF IN BROWSER DON'T CREATE SERVER
 	if (process.env.IS_WEB) return;
@@ -43,80 +117,6 @@ function create() {
 
 	// IO SERVER
 	window.game.io = _io(window.game.server)
-
-	function data_sync() {
-		// AUTO GROUP
-		autogroup()
-
-		// SYNC players,groups OF ALL sockets
-		window.game.io.sockets.emit('data_sync', {
-			state: window.game.session.state,
-			players: window.game.session.players,
-			groups: window.game.session.groups
-		})
-	}
-
-  function autogroup() {
-		// CLEAN GROUPS
-		window.game.session.groups = []
-		for (let g = 0; g < 4; g++) {
-			// ADD NEW GROUP
-			window.game.session.groups.push(_group())
-		}
-
-		// MAX NUM OF PLAYERS PER GROUP ALLOWED
-		let maxnum = Math.ceil(Math.sqrt(window.game.session.players.length))
-
-		window.game.session.groups_used = 0
-
-		// LIST OF PLAYERS ALREADY CHOOSEN
-		let pool = []
-		for (let p = 0; p < maxnum; p++) {
-			// IF WE'VE ALREADY CHOOSEN ALL AVALIABLE PLAYERS BREAK
-			if (pool.length === window.game.session.players.length) break;
-
-			for (let g = 0; g < 4; g++) {
-				// IF WE'VE ALREADY CHOOSEN ALL AVALIABLE PLAYERS BREAK
-				if (pool.length === window.game.session.players.length) break;
-
-				while (true) {
-					// IF WE'VE ALREADY CHOOSEN ALL AVALIABLE PLAYERS BREAK
-					if (pool.length === window.game.session.players.length) break;
-
-					// CHOSE A PLAYER'S INDEX AT RANDOM
-					let player = Math.floor(Math.random() * window.game.session.players.length)
-
-					// IF PLAYER'S INDEX IS ALREADY USED RE-PICK
-					if (pool.indexOf(player) != -1) continue;
-
-					// SINCE THIS PLAYER'S INDEX HASN'T BEEN CHOOSEN ALREADY THEN ADD TO POOL
-					pool.push(player)
-
-					// GET player
-					player = window.game.session.players[player]
-
-					// UPDATE player's socket group id
-					window.game.io.sockets.sockets[player.id].handshake.query.group = window.game.session.groups[g].id
-
-					// IF PLAYER IS FIRST IN GROUP THEN MAKE TEAM CAPTAIN; ELSE MAKE NON CAPTAIN
-					if (p == 0) {
-						window.game.io.sockets.sockets[player.id].emit('group_captain', true);
-
-						// ADD TO SERVER SIDE LIST OF TEAM CAPTAINS
-						window.game.session.group_captains.push(player.id)
-					} else {
-						window.game.io.sockets.sockets[player.id].emit('group_captain', false);
-					}
-
-					// ADD player TO group
-					window.game.session.groups[g].players.push(player)
-					break;
-				}
-
-				window.game.session.groups_used += 1
-			}
-		}
-	}
 
 	window.game.io.on('connection', (socket) => {
 		// IF socket NOT HOST THEN ADD TO PLAYERS
@@ -177,6 +177,17 @@ function create() {
 	window.client.join('localhost')
 }
 
+function system_message(content) {
+	window.game.io.sockets.emit('chat_msg', {
+		type: 'g',
+		system: true,
+		host: false,
+		captain: false,
+		author: 'SYSTEM',
+		content: content
+	})
+}
+
 function game_start() {
 	window.game.session.questions = {}
 
@@ -221,58 +232,55 @@ function game_start() {
 		questions: window.game.session.questions
 	})
 
+	system_message('Game Started!')
+
 	game_turn()
 }
 
-function game_next_group(group_index, time, mark_1, mark_2) {
-	window.game.session.group_turn = group_index || 0
-	window.game.session.group_time = time || window.game.session.group_default_time
-	window.game.session.group_time_mark_1 = mark_1 || false
-	window.game.session.group_time_mark_2 = mark_2 || false
-}
-
+// 'GAME LOOP'
 function game_turn() {
-	// IF THERE ARE NO MORE QUESTIONS THEN GAME IS OVER
-	if (window.game.session.group_total_turns >= 30) {
-		return 'done';
-	}
+	console.log(`GROUP TURN: ${window.game.session.group_turn} | GROUP TIME: ${window.game.session.group_time} sec.\nGROUPS USED: ${window.game.session.groups_used}`);
 
-	let default_time = window.game.session.group_default_time
-
-	if (window.game.session.group_turn == -1) { // START WITH THE FIRST TEAM AND GIVE DEFAULT TIME
+	if (window.game.session.group_time == 0) {
 		game_next_group()
-	} else if (window.game.session.group_time == 0) { // IF TIME IS UP THEN MOVE ON TO THE NEXT GROUP
-		window.game.session.group_turn += 1
-
-		game_next_group(window.game.session.group_turn)
 	}
 
-	// IF ALL GROUPS HAVE HAD THEIR TURN GO TO THE START
-	if (window.game.session.group_turn > window.game.session.groups_used) {
-		game_next_group()
-		return game_turn()
-	}
+	// REMOVE A SECOND TO GROUP TIME
+	window.game.session.group_time -= 1
 
-	if (default_time * 0.1 >= window.game.session.group_time && !window.game.session.group_time_mark_1) {
-		system_message(`Group #${1} has ${Math.floor(window.game.session.group_time)} seconds!`)
-	} else if (default_time * 0.5 >= window.game.session.group_time && !window.game.session.group_time_mark_2) {
-		system_message(`Group #${1} has ${Math.floor(window.game.session.group_time)} seconds!`)
+	// ALERT PLAYERS OF TIME LEFT AFTER LESS THEN 30% OF DEFAULT TIME IS LEFT
+	if (window.game.session.group_time <= 0) {
+		system_message(`Group #${window.game.session.group_turn + 1} time ended!`)
+	} else if (window.game.session.group_time <= window.game.session.group_default_time * 0.30) {
+		system_message(`Group #${window.game.session.group_turn + 1} has ${Math.floor(window.game.session.group_time)} sec. left!`)
 	}
-
-	// ADD TO TOTAL TURNS
-	group_total_turns += 1
 
 	// EVERY SECOND IS A GAME TURN
 	setTimeout(game_turn, 1000)
 }
 
-function system_message(content) {
-	window.game.io.sockets.emit('chat_msg', {
-		type: 'g',
-		system: true,
-		host: false,
-		captain: false,
-		author: 'SYSTEM',
-		content: content
-	})
+function game_next_group() {
+	// CHANGE GROUP'S TURN AND UPDATE TIME
+	// IF WE'VE ALREADY GONE THROUGH EVERY TEAM START FROM GROUP 0; ELSE, MOVE ON TO NEXT GROUP
+	if (window.game.session.group_turn >= (window.game.session.groups_used - 1)) {
+		window.game.session.group_turn = 0
+	} else {
+		window.game.session.group_turn += 1
+	}
+	window.game.session.group_time = window.game.session.group_default_time
+
+	// TELL ALL PLAYERS WHOSE TURN IT IS
+	system_message(`It's Group #${window.game.session.group_turn + 1} turn, time: ${Math.floor(window.game.session.group_default_time)} sec.!`)
+
+	// TELL ALL GROUP MEMBERS IT'S THEIR TURN
+	for (let member of window.game.session.groups[window.game.session.group_turn].players) {
+		window.game.io.sockets.sockets[member.id].emit('chat_msg', {
+			type: 'grp',
+			system: true,
+			host: false,
+			captain: false,
+			author: 'SYSTEM',
+			content: "IT'S YOUR TEAM'S TURN!"
+		})
+	}
 }

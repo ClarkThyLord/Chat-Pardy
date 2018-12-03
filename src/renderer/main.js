@@ -23,13 +23,10 @@ window.game_default = function () {
 			is_group_captain: false,
 			state: 'waiting',
 			players: [],
-			group_default_time: 0,
+			group_default_time: 10,
 			group_time: 0, // SECONDS CURRENT GROUP HAS
-			group_time_mark_1: false,
-			group_time_mark_2: false,
 			group_turn: -1, // CURRENT GROUP'S INDEX
 			groups_used: 0,
-			group_total_turns: 0,
 			groups: [],
 			group_captains: [],
 			questions: {},
