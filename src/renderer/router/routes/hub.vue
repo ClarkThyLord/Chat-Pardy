@@ -1,10 +1,14 @@
 <template>
   <div class="h-100 d-flex flex-column" id="hub">
-		<action-bar :state="state"></action-bar>
+		<action-bar :state="state" :can_start="players.length == 0"></action-bar>
 
 		<div class="m-0 p-0 row flex-fill">
 			<div style="overflow-x: hidden; overflow-y: auto;" class="m-0 p-0 w-75 flex-fill">
 				<team-score v-if="state == 'playing'" style="position: sticky; top: 0px;" :groups="groups"></team-score>
+
+				<div v-if="players.length == 0" style="opacity: 0.7 !important; position: fixed !important;" class="w-100 h-100 bg-dark text-center">
+					<h1><i>INVITE PLAYERS TO START THE GAME!</i></h1>
+				</div>
 
 				<div v-if="state == 'waiting'" class="w-100 h-100">
 					<player-space :players="players" class="h-50"></player-space>
