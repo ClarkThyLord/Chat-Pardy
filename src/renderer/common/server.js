@@ -98,6 +98,9 @@ function create() {
 					// IF PLAYER IS FIRST IN GROUP THEN MAKE TEAM CAPTAIN; ELSE MAKE NON CAPTAIN
 					if (p == 0) {
 						window.game.io.sockets.sockets[player.id].emit('group_captain', true);
+
+						// ADD TO SERVER SIDE LIST OF TEAM CAPTAINS
+						window.game.session.group_captains.push(player.id)
 					} else {
 						window.game.io.sockets.sockets[player.id].emit('group_captain', false);
 					}
@@ -143,6 +146,10 @@ function create() {
 				}
 			}
 	  })
+
+		// GAME EVENTS
+		socket.on('question_choose', (data) => {
+		})
 	})
 
 	// ADDING 4 group TO game session

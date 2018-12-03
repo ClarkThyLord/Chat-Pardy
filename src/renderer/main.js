@@ -24,6 +24,7 @@ window.game_default = function () {
 			state: 'waiting',
 			players: [],
 			groups: [],
+			group_captains: [],
 			questions: {},
 			msgs: []
 		}
