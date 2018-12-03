@@ -34,10 +34,14 @@ function join(ip) {
 
 	// DATA EVENTS
 	window.game.socket.on('data_sync', function (data) {
-		window.game.session.state = data.state
 		window.game.session.players = data.players
 		window.game.session.groups = data.groups
   })
+
+	window.game.socket.on('game_start', function (data) {
+		window.game.session.state = data.state
+		window.game.session.questions = data.questions
+	})
 
 	// CHAT EVENTS
 	window.game.socket.on('chat_msg_g', function (msg) {

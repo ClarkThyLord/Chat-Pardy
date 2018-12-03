@@ -4,19 +4,14 @@
 
 		<div class="m-0 p-0 row flex-fill">
 			<div class="m-0 p-0 w-75 flex-fill">
-				<div v-if="state === 'waiting'" class="w-100 h-100">
+				<div v-if="state == 'waiting'" class="w-100 h-100">
 					<player-space :players="players" class="h-50"></player-space>
 
 					<group-space :groups="groups" class="h-50"></group-space>
 				</div>
 
-				<div v-if="state === 'playing'" class="w-100 h-100">
-				</div>
-
-				<div v-if="state === 'playing'" class="w-100 h-100">
-				</div>
-
-				<div v-if="state === 'playing'" class="w-100 h-100">
+				<div v-if="state == 'playing'" class="w-100 h-100">
+					<board :questions="questions"></board>
 				</div>
 			</div>
 
@@ -43,17 +38,22 @@
 			return {
 				state: window.game.session.state,
 				players: window.game.session.players,
-				groups: window.game.session.groups
+				groups: window.game.session.groups,
+				questions: window.game.session.questions
 			}
 		},
 		mounted: function () {
 			if (window.game.socket === undefined) return this.$router.push('portal');
 
 			window.game.socket.on('data_sync', (data) => {
-				this.state = data.state
 				this.players = data.players
 				this.groups = data.groups
 		  })
+
+			window.game.socket.on('game_start', (data) => {
+				this.state = 'playing'
+				this.questions = data.questions
+			})
 		}
   }
 </script>

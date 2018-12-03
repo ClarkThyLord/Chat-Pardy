@@ -185,4 +185,8 @@ function game_start() {
 		}
 	}
 
+	window.game.io.sockets.emit('game_start', {
+		state: 'playing',
+		questions: window.game.session.questions
+	})
 }

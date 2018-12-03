@@ -33,7 +33,9 @@
 		},
 		methods: {
 			start: function () {
-
+				if (window.game.server != undefined) {
+					window.server.game_start()
+				}
 			},
 			exit: function () {
 				if (window.game.server != undefined) {
