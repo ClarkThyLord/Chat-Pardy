@@ -14,7 +14,7 @@
         <div class="btn-group" role="group">
           <!-- <button v-if="is_host" type="button" class="btn btn-secondary">Configuration</button> -->
           <!-- <button type="button" class="btn btn-primary">Help</button> -->
-          <button v-if="is_host" type="button" @click="start" class="btn btn-primary">Start</button>
+          <button v-if="is_host && state == 'waiting'" type="button" @click="start" class="btn btn-primary">Start</button>
           <button type="button" @click="exit" class="btn btn-danger">Exit</button>
         </div>
       </form>
@@ -25,6 +25,7 @@
 <script>
   export default {
     name: 'action-bar',
+		props: ['state'],
 		data: function () {
 			return {
 				session_id: '',

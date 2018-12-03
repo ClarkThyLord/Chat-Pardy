@@ -1,14 +1,14 @@
 <template>
-	<div>
-		<div v-for="(questions, category, index) in questions">
-			<div>
-				{{ category }}
+	<div style="" class="w-100 p-2 row text-center">
+		<div v-for="(questions, category, index) in questions" style="flex: 1; max-height: 100%;" class="m-1 column">
+			<div class="mb-3 border-bottom">
+				<h4><small><b><i>{{ category }}</i></b></small></h4>
 			</div>
 
-			<div v-for="(question, index) in questions">
-				{{ 'QUESTION #' + (index + 1) }}
+			<div v-for="(question, index) in questions" style="height: 150px; cursor: pointer;" class="p-1 m-3 bg-primary border rounded">
+				<i>{{ 'QUESTION #' + (index + 1) }}</i>
 				<br />
-				{{ (index + 1) * 100 }}
+				<h2><b>{{ (index + 1) * 100 }}</b></h2>
 			</div>
 		</div>
 	</div>

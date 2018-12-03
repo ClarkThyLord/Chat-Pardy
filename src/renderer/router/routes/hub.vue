@@ -1,6 +1,6 @@
 <template>
   <div class="h-100 d-flex flex-column" id="hub">
-		<action-bar></action-bar>
+		<action-bar :state="state"></action-bar>
 
 		<div class="m-0 p-0 row flex-fill">
 			<div class="m-0 p-0 w-75 flex-fill">
