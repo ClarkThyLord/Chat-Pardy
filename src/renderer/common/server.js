@@ -2,7 +2,7 @@ import _express from 'express'
 import _io from 'socket.io'
 import _http from 'http'
 
-import questions from './questions.json'
+import _questions from './questions.json'
 
 export default {
 	create: create,
@@ -147,4 +147,42 @@ function create() {
 }
 
 function game_start() {
+	window.game.session.questions = {}
+
+	// GET 6 RANDOM CATEGORIES THAT DON'T REPEAT
+	for (let c = 0; c < 6; c++) {
+		while (true) {
+			let category = Object.keys(_questions)[Math.floor(Math.random() * Object.keys(_questions).length)]
+			// IF WE'VE ALREADY CHOOSEN THIS CATEGORY CHOOSE ANOTHER
+			if (Object.keys(window.game.session.questions).indexOf(category) != -1) continue;
+
+			// ADD SPACE FOR THIS CATEGORY IN GAME SESSION QUESTIONS
+			window.game.session.questions[category] = []
+
+			// GET 10 RANDOM QUESTIONS FROM THE CHOOSEN CATEGORIE THAT DON'T REPEAT
+			let questions_pool = []
+			for (let q = 0; q < 5; q++) {
+				while (true) {
+					// RANDOM QUESTION FROM CATEGORY
+					let question = Math.floor(Math.random() * _questions[category].length)
+
+					// IF WE'VE ALREADY CHOOSEN THIS QUESTION CHOOSE ANOTHER
+					if (questions_pool.indexOf(question) != -1) continue;
+
+					// ADD QUESTION INDEX TO QUESTION POOL TO AVOID REPEAT
+					questions_pool.push(question)
+
+					// GET THE REAL QUESTION
+					question = _questions[category][question]
+
+					// ADD QUESTIONS TO QUESTION IN GAME SESSION QUESTIONS CATEGORY
+					window.game.session.questions[category].push(question)
+					break;
+				}
+			}
+
+			break;
+		}
+	}
+
 }
