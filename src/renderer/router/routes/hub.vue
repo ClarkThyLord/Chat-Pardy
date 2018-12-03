@@ -19,6 +19,12 @@
 				<div v-if="state == 'playing'" class="w-100 h-100">
 					<board :questions="questions"></board>
 				</div>
+
+				<div v-if="state == 'playing' && question != ''">
+					{{ question }}
+
+					<input type="text" class="form-control" />
+				</div>
 			</div>
 
 			<chat style="position: sticky !important;" class="w-25 flex-fill"></chat>
@@ -58,6 +64,7 @@
 				players: window.game.session.players,
 				groups: window.game.session.groups,
 				is_group_captain: window.game.session.is_group_captain,
+				question: '',
 				questions: window.game.session.questions
 			}
 		},
@@ -76,6 +83,10 @@
 			window.game.socket.on('game_start', (data) => {
 				this.state = 'playing'
 				this.questions = data.questions
+			})
+
+			window.game.socket.on('game_question', (data) => {
+				this.question = data.question
 			})
 		}
   }

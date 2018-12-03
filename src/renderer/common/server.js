@@ -67,6 +67,8 @@ function create() {
 		// MAX NUM OF PLAYERS PER GROUP ALLOWED
 		let maxnum = Math.ceil(Math.sqrt(window.game.session.players.length))
 
+		window.game.session.groups_used = 0
+
 		// LIST OF PLAYERS ALREADY CHOOSEN
 		let pool = []
 		for (let p = 0; p < maxnum; p++) {
@@ -110,6 +112,8 @@ function create() {
 					window.game.session.groups[g].players.push(player)
 					break;
 				}
+
+				window.game.session.groups_used += 1
 			}
 		}
 	}
@@ -154,6 +158,13 @@ function create() {
 
 		// GAME EVENTS
 		socket.on('question_choose', (data) => {
+			// IF IT'S NOT THE groups captain AND IT'S NOT THE group's turn THEN DON'T RESPOND
+			if (socket.handshake.query.group != window.game.session.group_turn || window.game.session.group_captains.indexOf(socket.io) == -1) return;
+
+			// THE QUESTION HAS BEEN CHOOSEN BY THE group captain
+			window.game.io.sockets.emit('game_question', {
+				question: window.game.session.questions[data.category][data.question]
+			})
 		})
 	})
 
@@ -209,6 +220,50 @@ function game_start() {
 		state: 'playing',
 		questions: window.game.session.questions
 	})
+
+	game_turn()
+}
+
+function game_next_group(group_index, time, mark_1, mark_2) {
+	window.game.session.group_turn = group_index || 0
+	window.game.session.group_time = time || window.game.session.group_default_time
+	window.game.session.group_time_mark_1 = mark_1 || false
+	window.game.session.group_time_mark_2 = mark_2 || false
+}
+
+function game_turn() {
+	// IF THERE ARE NO MORE QUESTIONS THEN GAME IS OVER
+	if (window.game.session.group_total_turns >= 30) {
+		return 'done';
+	}
+
+	let default_time = window.game.session.group_default_time
+
+	if (window.game.session.group_turn == -1) { // START WITH THE FIRST TEAM AND GIVE DEFAULT TIME
+		game_next_group()
+	} else if (window.game.session.group_time == 0) { // IF TIME IS UP THEN MOVE ON TO THE NEXT GROUP
+		window.game.session.group_turn += 1
+
+		game_next_group(window.game.session.group_turn)
+	}
+
+	// IF ALL GROUPS HAVE HAD THEIR TURN GO TO THE START
+	if (window.game.session.group_turn > window.game.session.groups_used) {
+		game_next_group()
+		return game_turn()
+	}
+
+	if (default_time * 0.1 >= window.game.session.group_time && !window.game.session.group_time_mark_1) {
+		system_message(`Group #${1} has ${Math.floor(window.game.session.group_time)} seconds!`)
+	} else if (default_time * 0.5 >= window.game.session.group_time && !window.game.session.group_time_mark_2) {
+		system_message(`Group #${1} has ${Math.floor(window.game.session.group_time)} seconds!`)
+	}
+
+	// ADD TO TOTAL TURNS
+	group_total_turns += 1
+
+	// EVERY SECOND IS A GAME TURN
+	setTimeout(game_turn, 1000)
 }
 
 function system_message(content) {
