@@ -38,17 +38,17 @@ function join(ip) {
 		window.game.session.groups = data.groups
   })
 
+	window.game.socket.on('group_captain', function (data) {
+		window.game.session.is_group_captain = data
+	})
+
 	window.game.socket.on('game_start', function (data) {
 		window.game.session.state = data.state
 		window.game.session.questions = data.questions
 	})
 
 	// CHAT EVENTS
-	window.game.socket.on('chat_msg_g', function (msg) {
-    window.game.session.msgs_g.push(msg)
-  })
-
-	window.game.socket.on('chat_msg_grp', function (msg) {
-    window.game.session.msgs_grp.push(msg)
+	window.game.socket.on('chat_msg', function (msg) {
+    window.game.session.msgs.push(msg)
   })
 }

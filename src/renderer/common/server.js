@@ -94,6 +94,14 @@ function create() {
 
 					// UPDATE player's socket group id
 					window.game.io.sockets.sockets[player.id].handshake.query.group = window.game.session.groups[g].id
+
+					// IF PLAYER IS FIRST IN GROUP THEN MAKE TEAM CAPTAIN; ELSE MAKE NON CAPTAIN
+					if (p == 0) {
+						window.game.io.sockets.sockets[player.id].emit('group_captain', true);
+					} else {
+						window.game.io.sockets.sockets[player.id].emit('group_captain', false);
+					}
+
 					// ADD player TO group
 					window.game.session.groups[g].players.push(player)
 					break;
@@ -122,7 +130,7 @@ function create() {
 		// CHAT MSG TO GLOBAL
 	  socket.on('chat_msg_g', (msg) => {
 			// EMIT MESSAGE TO ALL PLAYERS; e.g. GLOBAL CHAT
-	    window.game.io.emit('chat_msg_g', msg)
+	    window.game.io.emit('chat_msg', msg)
 	  })
 
 		// CHAT MSG TO socket's GROUP
@@ -130,8 +138,8 @@ function create() {
 			// SEND MSG TO ALL GROUP MEMBERS
 			for (let sub_socket of Object.values(window.game.io.sockets.sockets)) {
 				// IF THIS sub_socket HAD THE SAME group OF SENDER(socket) THEN SEND MSG
-				if (sub_socket.handshake.query.group == socket.group) {
-					window.game.session.io.sockets.sockets[sub_socket.id].emit('chat_msg_grp', msg)
+				if (sub_socket.handshake.query.group == socket.handshake.query.group) {
+					sub_socket.emit('chat_msg', msg)
 				}
 			}
 	  })

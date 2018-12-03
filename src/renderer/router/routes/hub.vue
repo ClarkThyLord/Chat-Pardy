@@ -53,6 +53,7 @@
 				state: window.game.session.state,
 				players: window.game.session.players,
 				groups: window.game.session.groups,
+				is_group_captain: window.game.session.is_group_captain,
 				questions: window.game.session.questions
 			}
 		},
@@ -63,6 +64,10 @@
 				this.players = data.players
 				this.groups = data.groups
 		  })
+
+			window.game.socket.on('group_captain', (data) => {
+				this.is_group_captain = data
+			})
 
 			window.game.socket.on('game_start', (data) => {
 				this.state = 'playing'

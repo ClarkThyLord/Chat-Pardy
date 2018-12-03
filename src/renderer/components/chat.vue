@@ -10,7 +10,7 @@
 		</div>
 
 		<div class="input-group">
-		  <input type="text" v-model="msg" v-on:keyup.enter="msg_send" class="form-control" placeholder="Enter message...">
+		  <input type="text" v-model="msg" v-on:keyup.enter="msg_send" class="form-control" :placeholder="`Enter message ${type == 'g' ? 'to everyone' : 'to team'}...`">
 
 			<div class="input-group-append">
 		    <button type="button" @click="msg_send" class="btn btn-success">Send</button>
@@ -28,7 +28,7 @@
 			return {
 				msg: '',
 				type: 'g',
-				msgs: window.game.session.msgs_g,
+				msgs: window.game.session.msgs,
 				is_host: window.game.server != undefined
 			}
 		},
@@ -38,6 +38,9 @@
 		methods: {
 			msg_send: function () {
 				window.game.socket.emit(`chat_msg_${this.type}`, {
+					type: this.type,
+					host: window.game.io != undefined ? true : false,
+					captain: window.game.session.is_group_captain,
 					author: window.game.server != undefined ? 'GAME HOST' : window.game.session.name,
 					content: this.msg
 				});
