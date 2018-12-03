@@ -6,7 +6,8 @@ import _questions from './questions.json'
 
 export default {
 	create: create,
-	game_start: game_start
+	game_start: game_start,
+	system_message: system_message
 }
 
 function _player(id, name) {
@@ -124,10 +125,14 @@ function create() {
 				// DELETE PLAYER AND SYNC DATA
 				window.game.session.players.splice(window.game.session.players.findIndex(player => player.id == socket.id), 1)
 				data_sync()
+
+				system_message(`${socket.handshake.query.name} has left`)
 		  })
 
 			// SYNC DATA ONCE NEW PLAYER IS SETUP
 			data_sync()
+
+			system_message(`${socket.handshake.query.name} has joined`)
 		}
 
 		// CHAT MSG TO GLOBAL
@@ -203,5 +208,16 @@ function game_start() {
 	window.game.io.sockets.emit('game_start', {
 		state: 'playing',
 		questions: window.game.session.questions
+	})
+}
+
+function system_message(content) {
+	window.game.io.sockets.emit('chat_msg', {
+		type: 'g',
+		system: true,
+		host: false,
+		captain: false,
+		author: 'SYSTEM',
+		content: content
 	})
 }

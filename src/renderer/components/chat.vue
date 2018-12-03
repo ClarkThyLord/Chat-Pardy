@@ -39,6 +39,7 @@
 			msg_send: function () {
 				window.game.socket.emit(`chat_msg_${this.type}`, {
 					type: this.type,
+					system: false,
 					host: window.game.io != undefined ? true : false,
 					captain: window.game.session.is_group_captain,
 					author: window.game.server != undefined ? 'GAME HOST' : window.game.session.name,
