@@ -3,7 +3,9 @@
 		<action-bar :state="state"></action-bar>
 
 		<div class="m-0 p-0 row flex-fill">
-			<div class="m-0 p-0 w-75 flex-fill">
+			<div style="overflow-x: hidden; overflow-y: auto;" class="m-0 p-0 w-75 flex-fill">
+				<team-score v-if="state == 'playing'" style="position: sticky; top: 0px;" :groups="groups"></team-score>
+
 				<div v-if="state == 'waiting'" class="w-100 h-100">
 					<player-space :players="players" class="h-50"></player-space>
 
@@ -15,7 +17,7 @@
 				</div>
 			</div>
 
-			<chat class="w-25 flex-fill"></chat>
+			<chat style="position: sticky !important;" class="w-25 flex-fill"></chat>
 		</div>
   </div>
 </template>
@@ -27,13 +29,25 @@
   import PlayerSpace from '../../components/hub/player-space'
   import GroupSpace from '../../components/hub/group-space'
 
+	import TeamScore from '../../components/hub/team-score'
 	import board from '../../components/hub/board'
 
 	import chat from '../../components/chat'
 
   export default {
     name: 'hub',
-    components: {ActionBar, PlayerSpace, GroupSpace, Player, board, chat},
+    components: {
+			ActionBar,
+
+			PlayerSpace,
+		 	GroupSpace,
+			Player,
+
+			TeamScore,
+			board,
+
+			chat
+		},
 		data: function () {
 			return {
 				state: window.game.session.state,
