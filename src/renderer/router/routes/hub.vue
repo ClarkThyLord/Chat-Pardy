@@ -16,11 +16,11 @@
 					<group-space :groups="groups" class="h-50"></group-space>
 				</div>
 
-				<div v-if="state == 'playing' && question == ''" class="w-100 h-100">
+				<div v-if="state == 'playing' && question.q == ''" class="w-100 h-100">
 					<board :questions="questions"></board>
 				</div>
 
-				<div v-if="state == 'playing' && question != ''" class="p-3 text-center">
+				<div v-if="state == 'playing' && question.q != ''" class="p-3 text-center">
 					<h1 class="m-auto"><i>{{ question.q }}</i></h1>
 
 					<br />
@@ -29,7 +29,7 @@
 					  <input type="text" v-on:keyup.enter="send_answer" class="form-control" placeholder="Enter answer here...">
 
 						<div class="input-group-append">
-					    <button type="button" @click="send_answer" class="btn btn-success">Send</button>
+					    <button type="button" @click="send_answer" v-model="answer" class="btn btn-success">Send</button>
 					  </div>
 					</div>
 				</div>
@@ -72,13 +72,15 @@
 				players: window.game.session.players,
 				groups: window.game.session.groups,
 				is_group_captain: window.game.session.is_group_captain,
-				question: '',
+				question: {q: '', a: ''},
+				answer: '',
 				questions: window.game.session.questions
 			}
 		},
 		methods: {
 			send_answer: function () {
-				console.log('SENT!');
+				window.game.socket.emit('game_answer', this.answer)
+				this.answer = ''
 			}
 		},
 		mounted: function () {
@@ -99,10 +101,10 @@
 			})
 
 			window.game.socket.on('game_question', (data) => {
-				console.log('QUESTION UPDATE:');
-				console.log(data);
+				// console.log('QUESTION UPDATE:');
+				// console.log(data);
 
-				this.question = data.question
+				this.question = data
 			})
 		}
   }

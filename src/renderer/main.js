@@ -24,6 +24,7 @@ window.game_default = function () {
 			state: 'waiting',
 			players: [],
 			group_default_time: 10,
+			group_answered: false, // WHETHER OR NOT THE GROUP HAS ALREADY ANSWERED
 			group_time: 0, // SECONDS CURRENT GROUP HAS
 			group_turn: -1, // CURRENT GROUP'S INDEX
 			groups_used: 0,

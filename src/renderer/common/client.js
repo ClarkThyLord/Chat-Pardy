@@ -51,4 +51,12 @@ function join(ip) {
 	window.game.socket.on('chat_msg', function (msg) {
     window.game.session.msgs.push(msg)
   })
+
+	// GAME EVENTS
+	window.game.socket.on('game_question', function (data) {
+		console.log('QUESTION:');
+		console.log(data);
+
+		window.game.session.question = data
+	})
 }

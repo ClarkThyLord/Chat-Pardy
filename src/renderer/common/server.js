@@ -160,14 +160,31 @@ function create() {
 		socket.on('game_question', (data) => {
 			console.log('GAME QUESTION:');
 			console.log(data);
-			console.log(window.game.session.group_captains.indexOf(socket.id) == -1);
+
 			// IF IT'S NOT THE groups captain AND IT'S NOT THE group's turn THEN DON'T RESPOND
 			if (socket.handshake.query.group != window.game.session.group_turn || window.game.session.group_captains.indexOf(socket.id) == -1) return;
 
 			// THE QUESTION HAS BEEN CHOOSEN BY THE group captain
+			window.game.io.sockets.emit('game_question', Object.assign({}, window.game.session.questions[data.category][data.index], {points: (data.index * 100)}))
+		})
+
+		socket.on('game_answer', (answer) => {
+			console.log('GAME ANSWER:');
+			console.log(answer);
+
+			if (answer.toLowerCase() == window.game.session.question.a.toLowerCase()) {
+				window.game.session.groups[socket.handshake.query.group].score += window.session.game.question.score
+				system_message(`Group #${window.game.session.group_turn + 1} answered correctly!`)
+			} else {
+				system_message(`Group #${window.game.session.group_turn + 1} didn't answered correctly!`)
+			}
+
 			window.game.io.sockets.emit('game_question', {
-				question: window.game.session.questions[data.category][data.index]
+				q: '',
+				a: ''
 			})
+
+			window.game.session.group_answered = true
 		})
 	})
 
@@ -246,7 +263,7 @@ function game_turn() {
 
 	if (window.game.io == undefined) return;
 
-	if (window.game.session.group_time == 0) {
+	if (window.game.session.group_time == 0 || window.game.session.group_answered) {
 		game_next_group()
 	}
 
@@ -265,6 +282,9 @@ function game_turn() {
 }
 
 function game_next_group() {
+		// GROUP HASN'T ANSWERED
+		window.game.session.group_answered = false
+
 	// CHANGE GROUP'S TURN AND UPDATE TIME
 	// IF WE'VE ALREADY GONE THROUGH EVERY TEAM START FROM GROUP 0; ELSE, MOVE ON TO NEXT GROUP
 	if (window.game.session.group_turn >= (window.game.session.groups_used - 1)) {
