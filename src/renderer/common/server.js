@@ -170,9 +170,11 @@ function create() {
 		})
 
 		socket.on('game_answer', (answer) => {
+			// IF IT'S NOT THE groups captain AND IT'S NOT THE group's turn THEN DON'T RESPOND
+			if (socket.handshake.query.group != window.game.session.group_turn || window.game.session.group_captains.indexOf(socket.id) == -1) return;
+
 			window.game.session.group_answered = true
 
-			console.log(answer);
 			if (answer.toLowerCase() == window.game.session.question.a.toLowerCase()) {
 				window.game.session.groups[socket.handshake.query.group].score += window.game.session.question.points
 				system_message(`Group #${window.game.session.group_turn + 1} answered correctly!`)
@@ -180,14 +182,7 @@ function create() {
 				system_message(`Group #${window.game.session.group_turn + 1} didn't answered correctly!`)
 			}
 
-			window.game.session.questions[window.game.session.question.category][window.game.session.question.index].used = true
-
-			window.game.io.sockets.emit('game_question', {
-				q: '',
-				a: ''
-			})
-
-			game_update()
+			used_question()
 		})
 	})
 
@@ -273,6 +268,7 @@ function game_turn() {
 
 	// ALERT PLAYERS OF TIME LEFT AFTER LESS THEN 30% OF DEFAULT TIME IS LEFT
 	if (window.game.session.group_time <= 0) {
+		used_question()
 		system_message(`Group #${window.game.session.group_turn + 1} time ended!`)
 	} else if (window.game.session.group_time <= window.game.session.group_default_time * 0.30) {
 		system_message(`Group #${window.game.session.group_turn + 1} has ${Math.floor(window.game.session.group_time)} sec. left!`)
@@ -288,7 +284,7 @@ function game_next_group() {
 
 	// CHANGE GROUP'S TURN AND UPDATE TIME
 	// IF WE'VE ALREADY GONE THROUGH EVERY TEAM START FROM GROUP 0; ELSE, MOVE ON TO NEXT GROUP
-	if (window.game.session.group_turn >= (window.game.session.groups_used - 1)) {
+	if ((window.game.session.group_turn + 1) == window.game.session.groups_used) {
 		window.game.session.group_turn = 0
 	} else {
 		window.game.session.group_turn += 1
@@ -316,4 +312,15 @@ function game_update() {
 		groups: window.game.session.groups,
 		questions: window.game.session.questions
 	})
+}
+
+function used_question() {
+	window.game.session.questions[window.game.session.question.category][window.game.session.question.index].used = true
+
+	window.game.io.sockets.emit('game_question', {
+		q: '',
+		a: ''
+	})
+
+	game_update()
 }
