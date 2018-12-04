@@ -80,7 +80,7 @@ function autogroup() {
 				player = window.game.session.players[player]
 
 				// UPDATE player's socket group id
-				window.game.io.sockets.sockets[player.id].handshake.query.group = window.game.session.groups[g].id
+				window.game.io.sockets.sockets[player.id].handshake.query.group = g
 
 				// IF PLAYER IS FIRST IN GROUP THEN MAKE TEAM CAPTAIN; ELSE MAKE NON CAPTAIN
 				if (p == 0) {
@@ -157,13 +157,16 @@ function create() {
 	  })
 
 		// GAME EVENTS
-		socket.on('question_choose', (data) => {
+		socket.on('game_question', (data) => {
+			console.log('GAME QUESTION:');
+			console.log(data);
+			console.log(window.game.session.group_captains.indexOf(socket.id) == -1);
 			// IF IT'S NOT THE groups captain AND IT'S NOT THE group's turn THEN DON'T RESPOND
-			if (socket.handshake.query.group != window.game.session.group_turn || window.game.session.group_captains.indexOf(socket.io) == -1) return;
+			if (socket.handshake.query.group != window.game.session.group_turn || window.game.session.group_captains.indexOf(socket.id) == -1) return;
 
 			// THE QUESTION HAS BEEN CHOOSEN BY THE group captain
 			window.game.io.sockets.emit('game_question', {
-				question: window.game.session.questions[data.category][data.question]
+				question: window.game.session.questions[data.category][data.index]
 			})
 		})
 	})
@@ -239,7 +242,7 @@ function game_start() {
 
 // 'GAME LOOP'
 function game_turn() {
-	console.log(`GROUP TURN: ${window.game.session.group_turn} | GROUP TIME: ${window.game.session.group_time} sec.\nGROUPS USED: ${window.game.session.groups_used}`);
+	// console.log(`GROUP TURN: ${window.game.session.group_turn} | GROUP TIME: ${window.game.session.group_time} sec.\nGROUPS USED: ${window.game.session.groups_used}`);
 
 	if (window.game.session.group_time == 0) {
 		game_next_group()
@@ -275,7 +278,7 @@ function game_next_group() {
 	// TELL ALL GROUP MEMBERS IT'S THEIR TURN
 	for (let member of window.game.session.groups[window.game.session.group_turn].players) {
 		window.game.io.sockets.sockets[member.id].emit('chat_msg', {
-			type: 'grp',
+			type: 'g',
 			system: true,
 			host: false,
 			captain: false,

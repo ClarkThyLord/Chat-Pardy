@@ -2,8 +2,8 @@
   <div class="h-100 d-flex flex-column" id="hub">
 		<action-bar :state="state" :can_start="players.length == 0"></action-bar>
 
-		<div class="m-0 p-0 row flex-fill">
-			<div style="overflow-x: hidden; overflow-y: auto;" class="m-0 p-0 w-75 flex-fill">
+		<div style="max-height: 100%;" class="m-0 p-0 row flex-fill">
+			<div style="overflow-x: hidden; overflow-y: auto; max-height: 100%;" class="m-0 p-0 w-75 flex-fill">
 				<team-score v-if="state == 'playing'" style="position: sticky; top: 0px;" :groups="groups"></team-score>
 
 				<div v-if="players.length == 0" style="opacity: 0.7 !important; position: fixed !important;" class="w-100 h-100 bg-dark text-center">
@@ -16,7 +16,7 @@
 					<group-space :groups="groups" class="h-50"></group-space>
 				</div>
 
-				<div v-if="state == 'playing'" class="w-100 h-100">
+				<div v-if="state == 'playing' && question == ''" class="w-100 h-100">
 					<board :questions="questions"></board>
 				</div>
 
@@ -27,7 +27,7 @@
 				</div>
 			</div>
 
-			<chat style="position: sticky !important;" class="w-25 flex-fill"></chat>
+			<chat style="position: sticky !important; max-height: 100%;" class="w-25 flex-fill"></chat>
 		</div>
   </div>
 </template>
@@ -86,6 +86,9 @@
 			})
 
 			window.game.socket.on('game_question', (data) => {
+				console.log('QUESTION UPDATE:');
+				console.log(data);
+
 				this.question = data.question
 			})
 		}

@@ -22,7 +22,7 @@
 			question_choose: function (category, index) {
 				if (!window.game.session.is_group_captain) return;
 
-				window.game.socket.emit('question_choose', {category: category, index: index})
+				window.game.socket.emit('game_question', {category: category, index: index})
 			}
 		}
 	}
