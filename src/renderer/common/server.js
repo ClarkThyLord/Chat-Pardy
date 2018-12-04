@@ -244,6 +244,8 @@ function game_start() {
 function game_turn() {
 	// console.log(`GROUP TURN: ${window.game.session.group_turn} | GROUP TIME: ${window.game.session.group_time} sec.\nGROUPS USED: ${window.game.session.groups_used}`);
 
+	if (window.game.io == undefined) return;
+
 	if (window.game.session.group_time == 0) {
 		game_next_group()
 	}

@@ -20,10 +20,18 @@
 					<board :questions="questions"></board>
 				</div>
 
-				<div v-if="state == 'playing' && question != ''">
-					{{ question }}
+				<div v-if="state == 'playing' && question != ''" class="p-3 text-center">
+					<h1 class="m-auto"><i>{{ question.q }}</i></h1>
 
-					<input type="text" class="form-control" />
+					<br />
+
+					<div class="input-group">
+					  <input type="text" v-on:keyup.enter="send_answer" class="form-control" placeholder="Enter answer here...">
+
+						<div class="input-group-append">
+					    <button type="button" @click="send_answer" class="btn btn-success">Send</button>
+					  </div>
+					</div>
 				</div>
 			</div>
 
@@ -66,6 +74,11 @@
 				is_group_captain: window.game.session.is_group_captain,
 				question: '',
 				questions: window.game.session.questions
+			}
+		},
+		methods: {
+			send_answer: function () {
+				console.log('SENT!');
 			}
 		},
 		mounted: function () {
