@@ -26,10 +26,10 @@
 					<br />
 
 					<div class="input-group">
-					  <input type="text" v-on:keyup.enter="send_answer" class="form-control" placeholder="Enter answer here...">
+					  <input type="text" v-on:keyup.enter="send_answer" v-model="answer" class="form-control" placeholder="Enter answer here...">
 
 						<div class="input-group-append">
-					    <button type="button" @click="send_answer" v-model="answer" class="btn btn-success">Send</button>
+					    <button type="button" @click="send_answer" class="btn btn-success">Send</button>
 					  </div>
 					</div>
 				</div>
@@ -79,6 +79,7 @@
 		},
 		methods: {
 			send_answer: function () {
+				console.log(`SENT: ${this.answer}`);
 				window.game.socket.emit('game_answer', this.answer)
 				this.answer = ''
 			}
@@ -101,10 +102,12 @@
 			})
 
 			window.game.socket.on('game_question', (data) => {
-				// console.log('QUESTION UPDATE:');
-				// console.log(data);
-
 				this.question = data
+			})
+
+			window.game.socket.on('game_update', (data) => {
+				this.groups = data.groups
+				this.questions = data.questions
 			})
 		}
   }

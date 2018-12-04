@@ -54,9 +54,11 @@ function join(ip) {
 
 	// GAME EVENTS
 	window.game.socket.on('game_question', function (data) {
-		console.log('QUESTION:');
-		console.log(data);
-
 		window.game.session.question = data
+	})
+
+	window.game.socket.on('game_update', (data) => {
+		window.game.session.groups = data.groups
+		window.game.session.questions = data.questions
 	})
 }
