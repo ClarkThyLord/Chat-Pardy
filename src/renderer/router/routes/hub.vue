@@ -36,7 +36,7 @@
 
 				<div v-if="state == 'end'" class="w-100 h-100 text-center justify-content-center">
 					<div v-for="(group, index) in group_order" v-if="group.players.length > 0" class="m-1 p-1 text-center">
-						<h1><b>Group #{{ index }} : </b> <i>{{ group.score }}</i></h1>
+						<h1><b>Group #{{ index + 1 }} : </b> <i>{{ group.score }}</i></h1>
 
 						<div v-for="player in group.players">
 							<h3>{{ player.name }}</h3>
@@ -80,11 +80,11 @@
 		},
 		data: function () {
 			return {
+				is_host: window.game.server != undefined,
 				state: window.game.session.state,
 				players: window.game.session.players,
 				group: 0,
 				groups: window.game.session.groups,
-				is_host: window.game.server != undefined,
 				is_group_captain: window.game.session.is_group_captain,
 				question: {q: '', a: ''},
 				answer: '',
@@ -137,6 +137,18 @@
 
 			window.game.socket.on('game_close', (data) => {
 				this.state = 'waiting'
+
+				// RESET GAME TEMPORARY DATA TO DEFAULT
+				window.game.session.group_answered = false, // WHETHER OR NOT THE GROUP HAS ALREADY ANSWERED
+				window.game.session.group_time = 0, // SECONDS CURRENT GROUP HAS
+				window.game.session.group_turn = -1 // CURRENT GROUP'S INDEX
+				window.game.session.group_total_turns = 0 // NUMBER OF TOTAL TURNS
+
+				this.answer = ''
+				this.question = {q: '', a: ''}
+				window.game.session.question = {q: '', a: ''}
+				this.questions = {}
+				window.game.session.questions = {}
 			})
 
 			window.game.socket.on('game_question', (data) => {
