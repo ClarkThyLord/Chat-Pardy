@@ -12,10 +12,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 window.game_default = function () {
 	window.game = {
-		app: undefined,
-		server: undefined,
-		io: undefined,
-		socket: undefined,
+		app: undefined, // MOST BASIC FORM OF SERVER
+		server: undefined, // EXPRESS VERSION OF SERVER
+		io: undefined, // SOCKET VERSION OF SERVER; HANDLES EVERYTHING
+		socket: undefined, // CLIENT
 		session: {
 			id: Math.floor(Math.random() * 9999999),
 			name: '',
