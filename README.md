@@ -7,7 +7,7 @@
 
 <p align="center">
 	<a href="https://github.com/ClarkThyLord/Chat-Pardy/releases">
-		<img src="https://img.shields.io/badge/Version-0.0.1-blue.svg" alt="Version">
+		<img src="https://img.shields.io/badge/Version-1.0.0-blue.svg" alt="Version">
 	</a>
 	<a href="https://github.com/ClarkThyLord/Chat-Pardy/blob/master/LICENSE">
 		<img src="https://img.shields.io/badge/License-MIT-brightgreen.svg" alt="License">
