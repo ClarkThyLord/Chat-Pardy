@@ -35,13 +35,11 @@
 				</div>
 
 				<div v-if="state == 'end'" class="w-100 h-100 text-center justify-content-center">
-					<div v-for="(group, index) in group_order" class="p-1 text-center">
-						<div class="m-1">
-							<h1><b>Group #{{ index }} : </b> <i>{{ group.score }}</i></h1>
+					<div v-for="(group, index) in group_order" v-if="group.players.length > 0" class="m-1 p-1 text-center">
+						<h1><b>Group #{{ index }} : </b> <i>{{ group.score }}</i></h1>
 
-							<div v-for="player in group.players">
-								<h3>{{ player.name }}</h3>
-							</div>
+						<div v-for="player in group.players">
+							<h3>{{ player.name }}</h3>
 						</div>
 					</div>
 
@@ -95,7 +93,15 @@
 		},
 		computed: {
 			group_order: function () {
-				return this.groups
+				return this.groups.concat().sort((a, b) => {
+					if (a.score > b.score) {
+						return -1
+					} else if (a.score < b.score) {
+						return 1
+					}else {
+						return 0
+					}
+				})
 			}
 		},
 		methods: {

@@ -172,7 +172,7 @@ function create() {
 				group: data.group,
 				category: data.category,
 				index: data.index,
-				points: (data.index * 100)
+				points: ((data.index + 1) * 100)
 			}))
 		})
 
@@ -268,7 +268,7 @@ function game_turn() {
 	if (window.game.io == undefined) return;
 
 	// IF ALL POSSIBLE TURNS THEN END GAME
-	if (window.game.session.group_total_turns >= 29) {
+	if (window.game.session.group_total_turns == 30) {
 		window.game.io.sockets.emit('game_end')
 		return system_message('GAME ENDED!')
 	}
