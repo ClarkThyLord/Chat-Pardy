@@ -27,6 +27,7 @@ window.game_default = function () {
 			group_answered: false, // WHETHER OR NOT THE GROUP HAS ALREADY ANSWERED
 			group_time: 0, // SECONDS CURRENT GROUP HAS
 			group_turn: -1, // CURRENT GROUP'S INDEX
+			group_total_turns: 0, // NUMBER OF TOTAL TURNS
 			groups_used: 0,
 			groups: [],
 			group_captains: [],

@@ -33,6 +33,20 @@
 					  </div>
 					</div>
 				</div>
+
+				<div v-if="state == 'end'" class="w-100 h-100 text-center justify-content-center">
+					<div v-for="(group, index) in group_order" class="p-1 text-center">
+						<div class="m-1">
+							<h1><b>Group #{{ index }} : </b> <i>{{ group.score }}</i></h1>
+
+							<div v-for="player in group.players">
+								<h3>{{ player.name }}</h3>
+							</div>
+						</div>
+					</div>
+
+					<input v-if="is_host" type="button" @click="game_close" value="Close Session" class="m-3 form-control" />
+				</div>
 			</div>
 
 			<chat style="position: sticky !important; max-height: 100%;" class="w-25 flex-fill"></chat>
@@ -72,17 +86,25 @@
 				players: window.game.session.players,
 				group: 0,
 				groups: window.game.session.groups,
+				is_host: window.game.server != undefined,
 				is_group_captain: window.game.session.is_group_captain,
 				question: {q: '', a: ''},
 				answer: '',
 				questions: window.game.session.questions
 			}
 		},
+		computed: {
+			group_order: function () {
+				return this.groups
+			}
+		},
 		methods: {
 			send_answer: function () {
-				console.log(`SENT: ${this.answer}`);
 				window.game.socket.emit('game_answer', this.answer)
 				this.answer = ''
+			},
+			game_close: function () {
+				window.game.io.sockets.emit('game_close')
 			}
 		},
 		mounted: function () {
@@ -101,6 +123,14 @@
 			window.game.socket.on('game_start', (data) => {
 				this.state = 'playing'
 				this.questions = data.questions
+			})
+
+			window.game.socket.on('game_end', (data) => {
+				this.state = 'end'
+			})
+
+			window.game.socket.on('game_close', (data) => {
+				this.state = 'waiting'
 			})
 
 			window.game.socket.on('game_question', (data) => {

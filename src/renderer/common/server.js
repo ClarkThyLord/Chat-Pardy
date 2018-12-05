@@ -256,7 +256,14 @@ function game_start() {
 
 // 'GAME LOOP'
 function game_turn() {
+	// IF NO SERVER THEN RETURN
 	if (window.game.io == undefined) return;
+
+	// IF ALL POSSIBLE TURNS THEN END GAME
+	if (window.game.session.group_total_turns >= 29) {
+		window.game.io.sockets.emit('game_end')
+		return system_message('GAME ENDED!')
+	}
 
 	if (window.game.session.group_time == 0 || window.game.session.group_answered) {
 		game_next_group()
@@ -278,8 +285,8 @@ function game_turn() {
 }
 
 function game_next_group() {
-		// GROUP HASN'T ANSWERED
-		window.game.session.group_answered = false
+	// GROUP HASN'T ANSWERED
+	window.game.session.group_answered = false
 
 	// CHANGE GROUP'S TURN AND UPDATE TIME
 	// IF WE'VE ALREADY GONE THROUGH EVERY TEAM START FROM GROUP 0; ELSE, MOVE ON TO NEXT GROUP
@@ -314,7 +321,10 @@ function game_update() {
 }
 
 function used_question() {
-	if (window.game.session.question.category && window.game.session.question.category != '') window.game.session.questions[window.game.session.question.category][window.game.session.question.index].used = true;
+	if (window.game.session.question.category && window.game.session.question.category != '') {
+		window.game.session.questions[window.game.session.question.category][window.game.session.question.index].used = true
+		window.game.session.group_total_turns += 1
+	}
 
 	window.game.io.sockets.emit('game_question', {
 		q: '',
