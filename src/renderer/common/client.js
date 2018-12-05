@@ -17,7 +17,18 @@ function join(ip) {
 	window.game.socket.on('connect', () => {
 		// GO TO hub
 		window.vue.$router.push('hub')
-	});
+	})
+
+	window.game.socket.on('is_playing', () => {
+		// CLOSE CONNECTION TO SERVER; AND, RESET game data
+		window.game.socket.close()
+		window.game_default()
+
+		// GO TO portal
+		window.vue.$router.push('portal')
+
+		alert('SESSION IS IN PLAY!')
+	})
 
 	window.game.socket.on('connect_error', (error) => {
 		// ALERT USER THAT THE SESSION CANNOT BE FOUND

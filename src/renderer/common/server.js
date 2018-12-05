@@ -28,9 +28,9 @@ function _group() {
 	}
 }
 
-function data_sync() {
+function data_sync(regroup) {
 	// AUTO GROUP
-	autogroup()
+	if (regroup) autogroup();
 
 	// SYNC players,groups OF ALL sockets
 	window.game.io.sockets.emit('data_sync', {
@@ -117,6 +117,11 @@ function create() {
 	window.game.io = _io(window.game.server)
 
 	window.game.io.on('connection', (socket) => {
+		// IF playing THEN IGNORE new client AND disconnect
+		if (window.game.session.state == 'playing') {
+			return socket.emit('is_playing')
+		}
+
 		// IF socket NOT HOST THEN ADD TO PLAYERS
 		if (socket.handshake.query.id != window.game.session.id) {
 			// CREATE A NEW player WITH socket's id AND name GIVEN BY USER
@@ -124,15 +129,18 @@ function create() {
 
 			// WHEN THE socket/client disconnects DO THE FOLLOWING
 			socket.on('disconnect', (reason) => {
-				// DELETE PLAYER AND SYNC DATA
-				window.game.session.players.splice(window.game.session.players.findIndex(player => player.id == socket.id), 1)
-				data_sync()
+				// IF CLIENT THAT LEFT IS A PLAYER THEN DO THE FOLLOWING
+				if (window.game.session.players.findIndex(player => player.id == socket.id) != -1) {
+					// DELETE PLAYER AND SYNC DATA
+					window.game.session.players.splice(window.game.session.players.findIndex(player => player.id == socket.id), 1)
+					data_sync(window.game.session.state != 'playing')
 
-				system_message(`${socket.handshake.query.name} has left`)
+					system_message(`${socket.handshake.query.name} has left`)
+				}
 		  })
 
 			// SYNC DATA ONCE NEW PLAYER IS SETUP
-			data_sync()
+			data_sync(true)
 
 			system_message(`${socket.handshake.query.name} has joined`)
 		}
@@ -321,7 +329,7 @@ function game_update() {
 }
 
 function used_question() {
-	if (window.game.session.question.category && window.game.session.question.category != '') {
+	if (window.game.session.question && window.game.session.question.category && window.game.session.question.category != '') {
 		window.game.session.questions[window.game.session.question.category][window.game.session.question.index].used = true
 		window.game.session.group_total_turns += 1
 	}
