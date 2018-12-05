@@ -1,9 +1,9 @@
 <template>
-	<div class="m-2 d-flex flex-column flex-fill text-white bg-primary rounded group">
+	<div class="m-2 flex-column flex-fill text-white bg-primary rounded group"  :class="{'d-none': group.players.length == 0, ' d-flex': group.players.length > 0}">
 		<div class="card-header text-center"><b> {{ 'Group ' + (index == undefined ? group.id : index + 1) }} </b></div>
 
 		<div class="m-1 d-flex flex-column flex-fill border rounded players">
-			<player v-for="player in group.players" :player="player"></player>
+			<player v-for="(player, index) in group.players" :captain="index == 0" :player="player"></player>
 		</div>
 	</div>
 </template>

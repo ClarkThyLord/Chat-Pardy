@@ -17,14 +17,22 @@ window.game_default = function () {
 		io: undefined,
 		socket: undefined,
 		session: {
-			id: Math.floor(Math.random() * 100000),
+			id: Math.floor(Math.random() * 9999999),
 			name: '',
-			sockets: {},
-			players: {},
-			groups: {},
-			questions: [],
-			msgs_g: [],
-			msgs_grp: []
+			group: '',
+			is_group_captain: false,
+			state: 'waiting',
+			players: [],
+			group_default_time: 10,
+			group_answered: false, // WHETHER OR NOT THE GROUP HAS ALREADY ANSWERED
+			group_time: 0, // SECONDS CURRENT GROUP HAS
+			group_turn: -1, // CURRENT GROUP'S INDEX
+			group_total_turns: 0, // NUMBER OF TOTAL TURNS
+			groups_used: 0,
+			groups: [],
+			group_captains: [],
+			questions: {},
+			msgs: []
 		}
 	}
 }

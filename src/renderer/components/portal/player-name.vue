@@ -13,7 +13,7 @@
 				<div class="modal-body">
 					<form onsubmit="return false;" action="##" class="text-left">
 						<div class="p-3 m-auto form-group">
-					    <input type="text" v-on:keyup.enter="!name_valid ? '' : session_join" placeholder="Name..." v-model="name" name="name" class="form-control">
+					    <input type="text" v-on:keyup.enter="session_join" placeholder="Name..." v-model="name" name="name" class="form-control">
 					  </div>
 					</form>
 				</div>
@@ -43,11 +43,12 @@
 		},
 		methods: {
 			session_join: function () {
+				if (!this.name_valid) return;
+
 				window.game.session.name = this.name
 				window.client.join(this.session_ip)
 
 				$('#player-name').modal('hide')
-				this.$router.push('hub')
 			}
 		},
 		mounted: function () {

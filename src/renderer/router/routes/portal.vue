@@ -55,8 +55,6 @@
 				if (process.env.IS_WEB) return window.$('#download-prompt').modal('show');
 
 				window.server.create()
-
-				this.$router.push('hub')
 			},
 			session_join: function () {
 				window.$('#player-name').modal('show')
