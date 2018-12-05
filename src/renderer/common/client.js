@@ -1,13 +1,10 @@
 import _io from 'socket.io-client'
 
 export default {
-	join: join
+	join: join // JOINS A server
 }
 
 function join(ip) {
-	// DEFAULT VALUES
-	ip = ip || 'localhost';
-
 	window.game.socket = _io(`http://${ip}:7000/`, {
 		reconnection: false,
 		query: {
@@ -18,19 +15,29 @@ function join(ip) {
 
 	// CONNECTION EVENTS
 	window.game.socket.on('connect', () => {
+		// GO TO hub
 		window.vue.$router.push('hub')
 	});
 
 	window.game.socket.on('connect_error', (error) => {
+		// ALERT USER THAT THE SESSION CANNOT BE FOUND
 		alert('CANNOT FIND SESSION!')
+
+		// CLOSE CONNECTION TO SERVER; AND, RESET game data
 		window.game.socket.close()
+		window.game_default()
 	})
 
 	window.game.socket.on('disconnect', (reason) => {
+		// CLOSE CONNECTION TO SERVER; AND, RESET game data
 		window.game.socket.close()
 		window.game_default()
+
+		// GO TO portal
 		window.vue.$router.push('portal')
 	});
+
+	// THE FOLLOWING UPDATES client game data WITH server game data
 
 	// DATA EVENTS
 	window.game.socket.on('data_sync', function (data) {
@@ -38,8 +45,9 @@ function join(ip) {
 		window.game.session.groups = data.groups
   })
 
-	window.game.socket.on('group_captain', function (data) {
-		window.game.session.is_group_captain = data
+	window.game.socket.on('group_sync', function (data) {
+		window.game.session.group = data.group
+		window.game.session.is_group_captain = data.captain
 	})
 
 	window.game.socket.on('game_start', function (data) {

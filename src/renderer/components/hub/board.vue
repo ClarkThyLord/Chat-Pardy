@@ -24,6 +24,7 @@
 				if (!window.game.session.is_group_captain || used) return;
 
 				window.game.socket.emit('game_question', {
+					group: window.game.session.group,
 					category: category,
 					index: index
 				})

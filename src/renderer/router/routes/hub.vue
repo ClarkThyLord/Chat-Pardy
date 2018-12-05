@@ -25,7 +25,7 @@
 
 					<br />
 
-					<div class="input-group">
+					<div v-if="group == question.group && is_group_captain" class="input-group">
 					  <input type="text" v-on:keyup.enter="send_answer" v-model="answer" class="form-control" placeholder="Enter answer here...">
 
 						<div class="input-group-append">
@@ -70,6 +70,7 @@
 			return {
 				state: window.game.session.state,
 				players: window.game.session.players,
+				group: 0,
 				groups: window.game.session.groups,
 				is_group_captain: window.game.session.is_group_captain,
 				question: {q: '', a: ''},
@@ -92,8 +93,9 @@
 				this.groups = data.groups
 		  })
 
-			window.game.socket.on('group_captain', (data) => {
-				this.is_group_captain = data
+			window.game.socket.on('group_sync', (data) => {
+				this.group = data.group
+				this.is_group_captain = data.captain
 			})
 
 			window.game.socket.on('game_start', (data) => {

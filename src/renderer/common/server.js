@@ -82,15 +82,13 @@ function autogroup() {
 				// UPDATE player's socket group id
 				window.game.io.sockets.sockets[player.id].handshake.query.group = g
 
-				// IF PLAYER IS FIRST IN GROUP THEN MAKE TEAM CAPTAIN; ELSE MAKE NON CAPTAIN
-				if (p == 0) {
-					window.game.io.sockets.sockets[player.id].emit('group_captain', true);
+				// SYNC client's group data; E.G. group(_index), captain[whether client is captain or not]
+				window.game.io.sockets.sockets[player.id].emit('group_sync', {
+					group: g,
+					captain: (p == 0)
+				});
 
-					// ADD TO SERVER SIDE LIST OF TEAM CAPTAINS
-					window.game.session.group_captains.push(player.id)
-				} else {
-					window.game.io.sockets.sockets[player.id].emit('group_captain', false);
-				}
+				if (p == 0) window.game.session.group_captains.push(player.id);
 
 				// ADD player TO group
 				window.game.session.groups[g].players.push(player)
@@ -163,6 +161,7 @@ function create() {
 
 			// THE QUESTION HAS BEEN CHOOSEN BY THE group captain
 			window.game.io.sockets.emit('game_question', Object.assign({}, window.game.session.questions[data.category][data.index], {
+				group: data.group,
 				category: data.category,
 				index: data.index,
 				points: (data.index * 100)
@@ -284,7 +283,7 @@ function game_next_group() {
 
 	// CHANGE GROUP'S TURN AND UPDATE TIME
 	// IF WE'VE ALREADY GONE THROUGH EVERY TEAM START FROM GROUP 0; ELSE, MOVE ON TO NEXT GROUP
-	if ((window.game.session.group_turn + 1) == window.game.session.groups_used) {
+	if (window.game.session.group_turn == (window.game.session.groups_used - 1)) {
 		window.game.session.group_turn = 0
 	} else {
 		window.game.session.group_turn += 1
@@ -315,7 +314,7 @@ function game_update() {
 }
 
 function used_question() {
-	window.game.session.questions[window.game.session.question.category][window.game.session.question.index].used = true
+	if (window.game.session.question.category && window.game.session.question.category != '') window.game.session.questions[window.game.session.question.category][window.game.session.question.index].used = true;
 
 	window.game.io.sockets.emit('game_question', {
 		q: '',
