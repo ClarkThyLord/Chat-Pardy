@@ -51,8 +51,6 @@ function autogroup() {
 	// MAX NUM OF PLAYERS PER GROUP ALLOWED
 	let maxnum = Math.ceil(Math.sqrt(window.game.session.players.length))
 
-	window.game.session.groups_used = 0
-
 	// LIST OF PLAYERS ALREADY CHOOSEN
 	let pool = []
 	for (let p = 0; p < maxnum; p++) {
@@ -94,8 +92,6 @@ function autogroup() {
 				window.game.session.groups[g].players.push(player)
 				break;
 			}
-
-			window.game.session.groups_used += 1
 		}
 	}
 }
@@ -298,7 +294,9 @@ function game_next_group() {
 
 	// CHANGE GROUP'S TURN AND UPDATE TIME
 	// IF WE'VE ALREADY GONE THROUGH EVERY TEAM START FROM GROUP 0; ELSE, MOVE ON TO NEXT GROUP
-	if (window.game.session.group_turn == (window.game.session.groups_used - 1)) {
+	console.log(window.game.session.group_turn)
+
+	if (window.game.session.group_turn == (window.game.session.groups.filter(g => { return g.players.length > 0; }).length - 1)) {
 		window.game.session.group_turn = 0
 	} else {
 		window.game.session.group_turn += 1
